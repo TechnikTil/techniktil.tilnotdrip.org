@@ -1,0 +1,29 @@
+@font-face {
+	font-family: 'DigitalDisco';
+	src: url("./fonts/DigitalDisco.ttf") format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: "DigitalDisco";
+	background-color: black;
+	color: white;
+}
+
+.yellow {
+	color: #FDE541
+}
+
+.centered {
+	text-align: center;
+}
+
+.goodStrike {
+    text-decoration:line-through;
+}
+
+.goodStrike:before,
+.goodStrike:after {
+    content: "\00a0\00a0";
+}
