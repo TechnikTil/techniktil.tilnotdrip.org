@@ -1,6 +1,6 @@
 async function getRandomGreeting()
 {
-	const randomGreetingsResponse = await fetch('./assets/randomGreeting.txt');
+	const randomGreetingsResponse = await fetch('./assets/data/randomGreeting.txt');
 	const randomGreetingsFile = await randomGreetingsResponse.text();
 	const randomGreetings = randomGreetingsFile.split('\n');
 	randomGreetings.pop();
@@ -12,8 +12,11 @@ async function getRandomGreeting()
 getRandomGreeting().then(value => {
 	// gonna do most stuff here, because here is when most html stuff is initialized
 	console.log(value);
-	document.getElementById('randomGreeting').innerText = value;
+	const randomGreeting = document.getElementById('randomGreeting');
+	if(randomGreeting != null)
+		randomGreeting.innerText = value;
 
-	if(Math.random() <= 0.1)
-		document.getElementById('stuffAlright').innerText = 'Shit'; // hehehe im so funny hehehehe
+	const stuffAlright = document.getElementById('stuffAlright');
+	if(Math.random() <= 0.1 && stuffAlright != null)
+		stuffAlright.innerText = 'Shit'; // hehehe im so funny hehehehe
 });
