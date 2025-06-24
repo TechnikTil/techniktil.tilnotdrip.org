@@ -3,9 +3,7 @@ async function getRandomGreeting()
 	const randomGreetingsResponse = await fetch('./assets/data/randomGreeting.txt');
 	const randomGreetingsFile = await randomGreetingsResponse.text();
 	const randomGreetings = randomGreetingsFile.split('\n');
-	randomGreetings.pop();
 	var randomGreeting = randomGreetings[Math.floor(Math.random() * randomGreetings.length)];
-	randomGreeting = randomGreeting.substring(0, randomGreeting.length - 1);
 	return randomGreeting;
 }
 
