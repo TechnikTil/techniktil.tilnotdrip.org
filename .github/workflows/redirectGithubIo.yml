@@ -31,7 +31,7 @@ jobs:
         uses: actions/configure-pages@v5.0.0
 
       - name: Make Redirect File
-      - uses: 1arp/create-a-file-action@0.4.5
+        uses: 1arp/create-a-file-action@0.4.5
         with:
           path: '.'
           isAbsolutePath: false
