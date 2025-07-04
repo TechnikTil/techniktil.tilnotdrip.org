@@ -15,7 +15,7 @@ function getRandomGreeting()
 	return randomGreeting;
 }
 
-document.body.onload = () => {
+window.addEventListener('load', () => {
 	var greeting = getRandomGreeting();
 	console.log(greeting);
 	const randomGreeting = document.getElementById('randomGreeting');
@@ -25,4 +25,4 @@ document.body.onload = () => {
 	const stuffAlright = document.getElementById('stuffAlright');
 	if(Math.random() <= 0.1 && stuffAlright != null)
 		stuffAlright.innerText = 'Shit'; // hehehe im so funny hehehehe
-}
+});
