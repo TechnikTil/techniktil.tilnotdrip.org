@@ -57,6 +57,8 @@ function formatTime(date)
 
 	if(isPM)
 		formattedTime += " PM";
+	else
+		formattedTime += " AM";
 
 	return formattedTime;
 }
