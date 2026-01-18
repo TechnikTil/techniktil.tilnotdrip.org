@@ -1,0 +1,15 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: til-website
+    restart: unless-stopped
+    volumes:
+      - ./bin:/usr/share/nginx/html:ro
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: til-tunnel
+    restart: unless-stopped
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    command: tunnel run
