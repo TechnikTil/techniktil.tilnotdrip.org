@@ -9,10 +9,17 @@ const pageMap: {}[] = [{id: "Main", name: "Main"}, {id: "AboutMe", name: "About 
 
 export default function NavigationBar(): JSX.Element
 {
-	const curSelected: number = Math.round(Math.random() * pageMap.length);
+	const [curSelected, changeItem] = useState(0);
+
 	const navigationElements: JSX.Element[] = pageMap.map((data: any, index: number, array: {}[]) =>
 	{
 		const isSelected: boolean = curSelected == index;
+
+		function onClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void
+		{
+			event.preventDefault();
+			changeItem(index);
+		}
 
 		return (
 			<Fragment>
@@ -35,9 +42,4 @@ export default function NavigationBar(): JSX.Element
 			<h2 className="centered" style={{fontWeight: "normal"}}>{navigationElements}</h2>
 		</div>
 	);
-}
-
-function onClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void
-{
-	console.log(event);
 }
