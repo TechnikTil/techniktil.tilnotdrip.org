@@ -9,7 +9,7 @@ body {
 	font-family: "DigitalDisco";
 	background-color: black;
 
-	background-image: url("assets/images/checkers.png");
+	background-image: url("./assets/images/checkers.png");
 	background-repeat: infinite;
 	animation: backdropillusion 8s infinite;
 	animation-timing-function: linear;
