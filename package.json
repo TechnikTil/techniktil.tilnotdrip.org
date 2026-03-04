@@ -1,0 +1,14 @@
+{
+	"name": "techniktil.tilnotdrip.org",
+	"displayName": "TechnikWebsite",
+	"private": true,
+	"workspaces": ["apps/*"],
+	"scripts": {
+		"dev": "concurrently \"npm run dev -w apps/frontend\" \"npm run dev -w apps/backend\"",
+		"build": "npm run build --workspaces"
+	},
+	"devDependencies": {
+		"concurrently": "^9.2.1",
+		"prettier": "^3.8.1"
+	}
+}

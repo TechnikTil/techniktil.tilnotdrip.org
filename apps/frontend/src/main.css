@@ -1,0 +1,58 @@
+@font-face {
+	font-family: 'DigitalDisco';
+	src: url("./assets/fonts/DigitalDisco.ttf") format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: "DigitalDisco";
+	background-color: black;
+
+	background-image: url("assets/images/checkers.png");
+    background-repeat: infinite;
+    animation: backdropillusion 8s infinite;
+    animation-timing-function: linear;
+
+	color: white;
+}
+
+@keyframes backdropillusion {
+    to {background-position: top 118px left 118px;}
+}
+
+a {
+	color: white;
+}
+
+.yellow {
+	color: #FDE541
+}
+
+.centered {
+	text-align: center;
+}
+
+.goodStrike {
+    text-decoration:line-through;
+}
+
+.project {
+	margin-top: 10px;
+
+	margin-left: auto;
+    margin-right: auto;
+
+    background-color: rgba(65, 65, 65, 0.95);
+    border-radius: 5px;
+    padding: 15px;
+    width: max-content;
+    height: max-content;
+
+	text-align: center;
+}
+
+.goodStrike:before,
+.goodStrike:after {
+    content: "\00a0\00a0";
+}

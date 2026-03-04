@@ -1,0 +1,21 @@
+{
+	"lineWidth": 120,
+	"plugins": [
+		"https://plugins.dprint.dev/typescript-0.95.12.wasm"
+	],
+	"includes": [
+		"**/*.{ts,tsx}"
+	],
+	"typescript": {
+		"bracePosition": "nextLine",
+		"nextControlFlowPosition": "nextLine",
+		"semiColons": "always",
+		"useBraces": "whenNotSingleLine",
+		"spaceAround": false,
+		"preferSingleLine": true,
+		"spaceSurroundingProperties": false,
+		"objectExpression.preferHanging": false
+	},
+	"indentWidth": 4,
+	"useTabs": true
+}

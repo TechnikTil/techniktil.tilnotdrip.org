@@ -1,0 +1,24 @@
+{
+	"printWidth": 80,
+	"useTabs": true,
+	"tabWidth": 4,
+	"singleQuote": false,
+	"quoteProps": "preserve",
+	"bracketSpacing": true,
+	"trailingComma": "none",
+	"semi": false,
+	"overrides": [
+		{
+			"files": "*.css",
+			"options": {
+				"parser": "css"
+			}
+		},
+		{
+			"files": "*.json",
+			"options": {
+				"parser": "json"
+			}
+		}
+	]
+}
