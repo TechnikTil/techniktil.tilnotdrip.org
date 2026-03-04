@@ -14,11 +14,19 @@ export const PAGES: (typeof Page)[] = [MainPage, AboutMePage, ProjectsPage, Soci
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<BrowserRouter>
+			<WebsiteLogoText />
 			<NavigationBar />
 			<Pages />
 		</BrowserRouter>
 	</StrictMode>,
 );
+
+function WebsiteLogoText(): JSX.Element
+{
+	return (
+		<div className="centered" style={{marginTop: 15, fontWeight: "normal", fontSize: 50}}>TechnikTil's Website</div>
+	);
+}
 
 function Pages(): JSX.Element
 {
