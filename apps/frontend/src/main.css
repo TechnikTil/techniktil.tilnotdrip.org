@@ -42,8 +42,9 @@ nav {
 	text-align: center;
 }
 
-.goodStrike {
+.thick-strike {
 	text-decoration: line-through;
+	text-decoration-thickness: 3px;
 }
 
 .project {
@@ -59,9 +60,4 @@ nav {
 	height: max-content;
 
 	text-align: center;
-}
-
-.goodStrike:before,
-.goodStrike:after {
-	content: "\00a0\00a0";
 }

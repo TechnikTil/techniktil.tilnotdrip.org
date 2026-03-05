@@ -1,5 +1,6 @@
 import { type JSX, useEffect, useState } from "react";
 import React from "react";
+import ApiCache from "../ApiCache";
 import Page from "./Page";
 
 const GITHUB_LINK: string = "https://github.com/TechnikTil";
@@ -21,6 +22,7 @@ export default class AboutMePage extends Page
 
 				<ul style={{marginTop: 10, fontSize: 25}}>
 					<this.GetAge />
+					<li>A "Straight White Man" (scary)</li>
 					<li>
 						i liek <span className="yellow">yellowe</span> :)
 					</li>
@@ -37,7 +39,7 @@ export default class AboutMePage extends Page
 					<li>will probably be a basement dweller for a living</li>
 					<li>
 						In a Discord Group Chat called "
-						<span style={{color: "#F58700"}}>Couples Counseling #1</span>" (dont ask)
+						<span style={{color: "#F58700"}}>Couples Counseling #1</span>" (don't ask)
 					</li>
 				</ul>
 			</div>
@@ -61,22 +63,7 @@ export default class AboutMePage extends Page
 
 	GetTimeZone(): JSX.Element
 	{
-		const [timeZoneData, setTimeZoneData] = useState<any>(undefined);
 		const [now, setNow] = useState<Date>(new Date());
-
-		useEffect(() =>
-		{
-			if (timeZoneData != undefined) return;
-
-			const updateTimeZone: () => Promise<void> = async () =>
-			{
-				const response: Response = await fetch("/api/timezone");
-				let data: any = await response.json();
-				setTimeZoneData(data);
-			};
-
-			updateTimeZone();
-		}, [timeZoneData]);
 
 		useEffect(() =>
 		{
@@ -89,18 +76,18 @@ export default class AboutMePage extends Page
 			return () => clearInterval(timer);
 		});
 
-		if (timeZoneData == undefined) return <React.Fragment />;
+		if (ApiCache.timeZoneData == undefined) return <React.Fragment />;
 
 		const date: Date = new Date(now);
-		date.setUTCMinutes(date.getUTCMinutes() - timeZoneData.offset);
+		date.setUTCMinutes(date.getUTCMinutes() - ApiCache.timeZoneData.offset);
 
-		const timeZoneName: string = timeZoneData.name;
+		const timeZoneName: string = ApiCache.timeZoneData.name;
 		const timeDisplay: string = date.toLocaleTimeString("en-US", {
 			hour: "numeric",
 			minute: "numeric",
 			second: "numeric",
 			timeZone: "UTC",
 		});
-		return <li>My Timezone is {timeZoneName}! (so its {timeDisplay} for me)</li>;
+		return <li>My Timezone is {timeZoneName}! (so it's {timeDisplay} for me)</li>;
 	}
 }
