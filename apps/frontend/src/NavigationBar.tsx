@@ -1,5 +1,4 @@
-import React from "react";
-import { Fragment, type JSX } from "react";
+import { type JSX, type ReactNode } from "react";
 import { Link, type Location, useLocation } from "react-router-dom";
 import { PAGES } from ".";
 import type Page from "./pages/Page";
@@ -12,10 +11,10 @@ export default function NavigationBar(): JSX.Element
 	{
 		const isSelected: boolean = location.pathname == data.url;
 
-		var navElement: React.ReactNode = <a>{data.navName}</a>;
+		var navElement: ReactNode = <a>{data.navName}</a>;
 		if (!isSelected) navElement = <Link className="yellow" to={data.url}>{data.navName}</Link>;
 
-		return <Fragment key={data.name}>[{navElement}]{index < array.length - 1 && " "}</Fragment>;
+		return <span key={data.name}>[{navElement}]{index < array.length - 1 && " "}</span>;
 	});
 
 	return (

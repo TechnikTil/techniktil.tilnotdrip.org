@@ -17,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
 			<WebsiteLogoText />
 			<NavigationBar />
 			<Pages />
+			<WipDisclaimer />
 		</BrowserRouter>
 	</StrictMode>,
 );
@@ -47,6 +48,18 @@ function NotFound(): JSX.Element
 		<div className="centered">
 			<h1>Page Not Found!</h1>
 			<h3 style={{fontWeight: "normal"}}>If this was on purpose, you can carry on...</h3>
+		</div>
+	);
+}
+
+export function WipDisclaimer(): JSX.Element
+{
+	// hehehe im so funny hehehehe
+	const stuffAlright: string = Math.random() <= 0.1 ? "Shit" : "Stuff";
+
+	return (
+		<div style={{marginTop: 80, fontSize: 20}}>
+			If you haven't noticed, this website is heavily Work in Progress. {stuffAlright} will probably change.
 		</div>
 	);
 }
