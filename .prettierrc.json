@@ -6,19 +6,5 @@
 	"quoteProps": "preserve",
 	"bracketSpacing": true,
 	"trailingComma": "none",
-	"semi": false,
-	"overrides": [
-		{
-			"files": "*.css",
-			"options": {
-				"parser": "css"
-			}
-		},
-		{
-			"files": "*.json",
-			"options": {
-				"parser": "json"
-			}
-		}
-	]
+	"semi": false
 }
