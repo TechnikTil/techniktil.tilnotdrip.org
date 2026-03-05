@@ -39,7 +39,7 @@ export function WipDisclaimer(): JSX.Element
 	const stuffAlright: string = Math.random() <= 0.1 ? "Shit" : "Stuff";
 
 	return (
-		<div style={{marginTop: 80, fontSize: 20}}>
+		<div id="disclaimer" style={{marginTop: 80, fontSize: 20}}>
 			If you haven't noticed, this website is heavily Work in Progress. {stuffAlright} will probably change.
 		</div>
 	);

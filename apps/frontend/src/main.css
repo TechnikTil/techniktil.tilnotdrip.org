@@ -60,4 +60,8 @@ nav {
 	height: max-content;
 
 	text-align: center;
+
+	p {
+		margin: 0;
+	}
 }
