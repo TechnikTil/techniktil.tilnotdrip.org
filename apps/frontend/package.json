@@ -21,6 +21,7 @@
 		"remark": "^15.0.1",
 		"remark-frontmatter": "^5.0.0",
 		"remark-rehype": "^11.1.2",
+		"remark-squeeze-paragraphs": "^6.0.0",
 		"vfile": "^6.0.3",
 		"vfile-matter": "^5.0.1"
 	},

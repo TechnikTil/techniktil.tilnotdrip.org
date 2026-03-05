@@ -65,3 +65,16 @@ nav {
 		margin: 0;
 	}
 }
+
+.socials {
+	margin-top: 10px;
+	font-size: 20px;
+
+	div {
+		margin-top: 5px;
+	}
+
+	a {
+		color: #fde541;
+	}
+}

@@ -1,0 +1,22 @@
+socials:
+  - platform: X/Twitter
+    name: "@TechnikTil"
+    url: https://twitter.com/TechnikTil
+  - platform: Bluesky
+    name: "@techniktil.tilnotdrip.org"
+    url: https://bsky.app/profile/techniktil.tilnotdrip.org
+  - platform: YouTube
+    name: "@TechnikTil"
+    url: https://youtube.com/@TechnikTil
+  - platform: GitHub
+    name: TechnikTil
+    url: https://github.com/TechnikTil
+  - platform: Steam
+    name: TechnikTil
+    url: https://steamcommunity.com/id/TechnikTil
+  - platform: Roblox
+    name: TechnikTil
+    url: https://www.roblox.com/users/1550307894/profile
+  - platform: Pretendo
+    name: "1089-9471-1612 (PNID: TechnikTilly)"
+    url: https://juxt.pretendo.network/users/1681274622
