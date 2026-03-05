@@ -34,7 +34,7 @@ export default class MainPage extends Page
 
 			const updateList: () => Promise<void> = async () =>
 			{
-				const response: Response = await fetch("/assets/data/greetings.txt");
+				const response: Response = await fetch("/data/greetings.txt");
 				let text: string = await response.text();
 				text = text.trim();
 				setList(text.split("\n"));
