@@ -5,6 +5,7 @@ export default class SocialsPage extends Page
 {
 	static navName: string = "Socials";
 	static url: string = "/socials";
+	static pageTitle: string = "Socials!";
 
 	render(): JSX.Element
 	{

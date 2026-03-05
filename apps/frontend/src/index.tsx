@@ -1,4 +1,4 @@
-import { type ComponentType, type JSX, StrictMode } from "react";
+import { type ComponentType, type JSX, StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./main.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -10,6 +10,7 @@ import ProjectsPage from "./pages/ProjectsPage.tsx";
 import SocialsPage from "./pages/SocialsPage.tsx";
 
 export const PAGES: (typeof Page)[] = [MainPage, AboutMePage, ProjectsPage, SocialsPage];
+export const DEFAULT_TITLE: string = "TechnikTil's Website";
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
@@ -42,6 +43,15 @@ function Pages(): JSX.Element
 	return <Routes>{routeElements}</Routes>;
 }
 
+export function usePageTitle(info?: string)
+{
+	useEffect(() =>
+	{
+		document.title = "TechnikTil's Website";
+		if (info) document.title += ` - ${info}`;
+	}, [info]);
+}
+
 function NotFound(): JSX.Element
 {
 	return (
@@ -52,7 +62,7 @@ function NotFound(): JSX.Element
 	);
 }
 
-export function WipDisclaimer(): JSX.Element
+function WipDisclaimer(): JSX.Element
 {
 	// hehehe im so funny hehehehe
 	const stuffAlright: string = Math.random() <= 0.1 ? "Shit" : "Stuff";

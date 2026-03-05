@@ -5,6 +5,7 @@ export default class ProjectsPage extends Page
 {
 	static navName: string = "Projects";
 	static url: string = "/projects";
+	static pageTitle: string = "Projects!";
 
 	render(): JSX.Element
 	{
