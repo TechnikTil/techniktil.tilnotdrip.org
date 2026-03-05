@@ -17,6 +17,8 @@ export default class AboutMePage extends Page
 
 		return (
 			<div>
+				<div style={{marginTop: 45, fontSize: 30}}>About Me:</div>
+
 				<ul style={{marginTop: 10, fontSize: 25}}>
 					<this.GetAge />
 					<li>
