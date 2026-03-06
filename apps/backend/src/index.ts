@@ -26,6 +26,51 @@ app.get("/timezone", (_req: Request, res: Response) =>
 	res.json({name: timezoneName, offset: timezoneOffset, timestamp: date.toISOString()});
 });
 
+app.get("/render-embed{/*path}", (req: Request, res: Response) =>
+{
+	const path: string = String(req.params.path);
+
+	let title: string = "TechnikTil's Website";
+	let description: string = "a website i will probably never update";
+
+	switch (path)
+	{
+		case "aboutMe":
+			title = `${title} - About Me!`;
+			description = "Go check out some things about me! Especially my timezone, so you don't message me at 2 AM.";
+			break;
+		case "projects":
+			title = `${title} - Projects!`;
+			description =
+				"Go check out the projects I have worked on / contributed to! It's basically my resume at this point.";
+			break;
+		case "socials":
+			title = `${title} - Socials!`;
+			description = "Most of my active social medias are listed here. Go check it out!";
+			break;
+	}
+
+	res.set("Content-Type", "text/html");
+	res.status(200).send(`
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <meta property="og:title" content="${title}" />
+                <meta property="og:description" content="${description}" />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:card" content="summary">
+                <meta name="theme-color" content="#FFFF00">
+                <title>${title}</title>
+            </head>
+            <body>
+                <h1>${title}</h1>
+                <p>${description}</p>
+            </body>
+        </html>
+    `);
+	console.log(`Served embed for "${path}"`);
+});
+
 app.listen(PORT, () =>
 {
 	console.log(`Backend ready on port ${PORT}`);
