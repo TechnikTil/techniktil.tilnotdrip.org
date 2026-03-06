@@ -5,7 +5,7 @@ downloads:
   - name: Newgrounds
     url: https://www.newgrounds.com/portal/view/77037
   - name: Itch.io
-    url: https://nightly.link/TilNotDrip/TechNotDrip-Engine/workflows/main/alpha
+    url: https://ninja-muffin24.itch.io/funkin
   - name: GitHub (My Contributions)
     url: https://github.com/FunkinCrew/Funkin/issues?q=author%3ATechnikTil%20is%3Apr
 ---
