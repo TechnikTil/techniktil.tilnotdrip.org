@@ -1,5 +1,4 @@
-import { type JSX } from "react";
-import React from "react";
+import { Fragment, type JSX } from "react";
 import ApiCache from "../ApiCache";
 import Page from "./Page";
 
@@ -27,7 +26,7 @@ export default class MainPage extends Page
 
 	RandomGreeting(): JSX.Element | null
 	{
-		if (ApiCache.greetingList == undefined) return <React.Fragment />;
+		if (ApiCache.greetingList == undefined) return <Fragment />;
 
 		const index: number = Math.floor(Math.random() * ApiCache.greetingList.length);
 		return <span>{ApiCache.greetingList[index]}</span>;

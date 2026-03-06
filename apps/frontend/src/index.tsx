@@ -8,7 +8,7 @@ import NavigationBar from "./NavigationBar.tsx";
 import AboutMePage from "./pages/AboutMePage.tsx";
 import MainPage from "./pages/MainPage.tsx";
 import Page from "./pages/Page.tsx";
-import ProjectsPage from "./pages/ProjectsPage.tsx";
+import ProjectsPage from "./pages/projects/ProjectsPage.tsx";
 import SocialsPage from "./pages/SocialsPage.tsx";
 
 export const PAGES: (typeof Page)[] = [MainPage, AboutMePage, ProjectsPage, SocialsPage];

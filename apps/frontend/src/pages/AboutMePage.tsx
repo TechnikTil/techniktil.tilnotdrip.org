@@ -1,5 +1,4 @@
-import { type JSX, useEffect, useState } from "react";
-import React from "react";
+import { Fragment, type JSX, useEffect, useState } from "react";
 import ApiCache from "../ApiCache";
 import Page from "./Page";
 
@@ -76,7 +75,7 @@ export default class AboutMePage extends Page
 			return () => clearInterval(timer);
 		});
 
-		if (ApiCache.timeZoneData == undefined) return <React.Fragment />;
+		if (ApiCache.timeZoneData == undefined) return <Fragment />;
 
 		const date: Date = new Date(now);
 		date.setUTCMinutes(date.getUTCMinutes() - ApiCache.timeZoneData.offset);

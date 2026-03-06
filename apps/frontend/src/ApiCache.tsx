@@ -8,15 +8,19 @@ export default class ApiCache
 
 	static async load(): Promise<void>
 	{
-		const endpoints: string[] = ["/data/greetings.txt", "data/socials.yaml", "/api/timezone"];
-		const [greetingResponse, socialsResponse, timezoneResponse] = await Promise.all(
-			endpoints.map((val: string) => fetch(val)),
-		);
+		const endpoints: string[] = ["/data/greetings.txt", "/data/socials.yaml", "/api/timezone"];
+		const responses: PromiseSettledResult<Response>[] = await Promise.allSettled(endpoints.map(val => fetch(val)));
+
+		const getRes: (i: number) => Response | null = (i: number) =>
+		{
+			const res = responses[i];
+			return res.status === "fulfilled" && res.value.ok ? res.value : null;
+		};
 
 		const [greetingText, socialContent, timeZoneData] = await Promise.all([
-			await greetingResponse.text(),
-			await socialsResponse.text(),
-			await timezoneResponse.json(),
+			await getRes(0)?.text() ?? "",
+			await getRes(1)?.text() ?? "",
+			await getRes(2)?.json(),
 		]);
 
 		ApiCache.greetingList = greetingText.trim().split("\n");
