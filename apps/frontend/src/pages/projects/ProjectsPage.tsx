@@ -1,6 +1,6 @@
 import { type JSX, lazy, type LazyExoticComponent, Suspense, useEffect } from "react";
 import Page from "../Page";
-const Projects: LazyExoticComponent<() => JSX.Element> = lazy(() => import("./ProjectNodes.tsx"));
+const Projects: LazyExoticComponent<() => JSX.Element> = lazy(() => import("../../lazy/ProjectNodes.tsx"));
 
 export default class ProjectsPage extends Page
 {

@@ -1,6 +1,7 @@
-import { Fragment, type JSX } from "react";
+import { Fragment, type JSX, lazy, type LazyExoticComponent, Suspense } from "react";
 import ApiCache from "../ApiCache";
 import Page from "./Page";
+const StrawNodes: LazyExoticComponent<() => JSX.Element> = lazy(() => import("../lazy/StrawNodes.tsx"));
 
 export default class MainPage extends Page
 {
@@ -20,6 +21,10 @@ export default class MainPage extends Page
 					decided I was gonna{"  "}<span className="thick-strike">steal</span>{"  "}
 					borrow that idea from him, and make a website about me too.
 				</div>
+
+				<Suspense>
+					<StrawNodes />
+				</Suspense>
 			</div>
 		);
 	}

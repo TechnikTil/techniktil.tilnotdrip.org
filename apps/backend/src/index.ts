@@ -71,6 +71,16 @@ app.get("/render-embed{/*path}", (req: Request, res: Response) =>
 	console.log(`Served embed for "${path}"`);
 });
 
+app.post("/straw/text", (req: Request, res: Response) =>
+{
+	console.log(req.body);
+});
+
+app.post("/straw/image", (req: Request, res: Response) =>
+{
+	console.log(req.body);
+});
+
 app.listen(PORT, () =>
 {
 	console.log(`Backend ready on port ${PORT}`);

@@ -49,8 +49,10 @@ export default function Projects(): JSX.Element
 			const downloadNodes: JSX.Element[] = downloads.map((value: any, index: number, array: any[]) =>
 			{
 				return (
-					<Fragment key={`url${index}`}>
-						[<a href={value.url} className="yellow">{value.name}</a>]
+					<Fragment>
+						<span style={{display: "inline-block", whiteSpace: "nowrap"}} key={`url${index}`}>
+							[<a href={value.url} className="yellow">{value.name}</a>]
+						</span>
 						{index < array.length - 1 && " "}
 					</Fragment>
 				);
@@ -58,7 +60,10 @@ export default function Projects(): JSX.Element
 
 			const node: JSX.Element = (
 				<div key={value} className="project">
-					<img src={`images/projects/${dataMatter.image}`} style={{width: "555px", height: "auto"}} />
+					<img
+						src={`images/projects/${dataMatter.image}`}
+						style={{width: "555px", height: "auto", maxWidth: "85vw"}}
+					/>
 					<div style={{marginTop: "5px", fontSize: "25px"}}>{dataMatter.name}</div>
 					<div style={{marginTop: "5px", fontSize: "18px"}}>{file.result as JSX.Element}</div>
 					<div className="centered" style={{marginTop: "15px", fontSize: "20px"}}>{downloadNodes}</div>
