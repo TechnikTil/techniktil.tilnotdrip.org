@@ -22,12 +22,7 @@ export default function NavigationBar(): JSX.Element
 		const isSelected: boolean = data.url == location.pathname;
 
 		return (
-			<TechnikButton
-				key={data.url}
-				onClick={() => navigate(data.url)}
-				href={isSelected ? undefined : data.url}
-				disabled={isSelected}
-			>
+			<TechnikButton key={data.url} onClick={() => navigate(data.url)} href={data.url} disabled={isSelected}>
 				{data.navName}
 			</TechnikButton>
 		);

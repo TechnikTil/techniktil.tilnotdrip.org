@@ -74,15 +74,16 @@ export function TechnikButton(
 		}
 	}
 
+	let href: string | undefined = components.href;
+	if (!href) href = "#";
+	if (components.disabled) href = undefined;
+
+	let className: string | undefined = "yellow";
+	if (components.disabled) className = undefined;
+
 	return (
 		<div className="normalWeight" style={{fontSize: components.fontSize}}>
-			[<a
-				className={components.disabled ? undefined : "yellow"}
-				href={(components.href || components.disabled) ? components.href : "#"}
-				onClick={onClickHandler}
-			>
-				{components.children}
-			</a>]
+			[<a className={className} href={href} onClick={onClickHandler}>{components.children}</a>]
 		</div>
 	);
 }
