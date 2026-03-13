@@ -1,7 +1,9 @@
-import type { ComponentType, JSX } from "react";
+import type { Property } from "csstype";
+import { type ComponentType, type JSX, lazy, type LazyExoticComponent, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { PAGES } from ".";
 import type Page from "./pages/Page";
+const Admin: LazyExoticComponent<() => JSX.Element> = lazy(() => import("./admin"));
 
 export function WebsiteLogoText(): JSX.Element
 {
@@ -19,6 +21,16 @@ export function Pages(): JSX.Element
 	});
 
 	routeElements.push(<Route path="*" element={<NotFound />} />);
+	routeElements.push(
+		<Route
+			path="/admin"
+			element={
+				<Suspense>
+					<Admin />
+				</Suspense>
+			}
+		/>,
+	);
 
 	return <Routes>{routeElements}</Routes>;
 }
@@ -41,6 +53,38 @@ export function WipDisclaimer(): JSX.Element
 	return (
 		<div id="disclaimer" style={{marginTop: 80, fontSize: 20}}>
 			If you haven't noticed, this website is heavily Work in Progress. {stuffAlright} will probably change.
+		</div>
+	);
+}
+
+export function TechnikButton(
+	components: {
+		children: string;
+		disabled?: boolean;
+		href?: string;
+		onClick?: () => void;
+		fontSize?: Property.FontSize;
+	},
+): JSX.Element
+{
+	function onClickHandler(event: React.MouseEvent): void
+	{
+		if (components.onClick)
+		{
+			event.preventDefault();
+			components.onClick();
+		}
+	}
+
+	return (
+		<div style={{fontSize: components.fontSize, fontWeight: "normal"}}>
+			[<a
+				className={components.disabled ? undefined : "yellow"}
+				href={(components.href || components.disabled) ? components.href : "#"}
+				onClick={onClickHandler}
+			>
+				{components.children}
+			</a>]
 		</div>
 	);
 }

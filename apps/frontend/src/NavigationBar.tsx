@@ -1,25 +1,52 @@
-import { type JSX, type ReactNode } from "react";
-import { Link, type Location, useLocation } from "react-router-dom";
+import { Fragment, type JSX, useEffect, useState } from "react";
+import { type Location, type NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { PAGES } from ".";
+import { TechnikButton } from "./GlobalNodes";
 import type Page from "./pages/Page";
 
 export default function NavigationBar(): JSX.Element
 {
 	const location: Location = useLocation();
+	const navigate: NavigateFunction = useNavigate();
 
-	const navigationElements: JSX.Element[] = PAGES.map((data: typeof Page, index: number, array: {}[]) =>
+	const [includeAdmin, setIncludeAdmin] = useState<boolean>(false);
+
+	useEffect(() =>
 	{
-		const isSelected: boolean = location.pathname == data.url;
+		fetch("/api/admin/check").then((response: Response) =>
+		{
+			setIncludeAdmin(response.ok);
+		});
+	}, [location]);
 
-		var navElement: ReactNode = <a>{data.navName}</a>;
-		if (!isSelected) navElement = <Link className="yellow" to={data.url}>{data.navName}</Link>;
+	const navigationElements: JSX.Element[] = PAGES.map((data: typeof Page) =>
+	{
+		const isSelected: boolean = data.url == location.pathname;
 
-		return <span key={data.name}>[{navElement}]{index < array.length - 1 && " "}</span>;
+		return (
+			<TechnikButton
+				onClick={() => navigate(data.url)}
+				href={isSelected ? undefined : data.url}
+				disabled={isSelected}
+			>
+				{data.navName}
+			</TechnikButton>
+		);
 	});
 
-	return (
-		<nav>
-			<h2 className="centered" style={{fontWeight: "normal"}}>{navigationElements}</h2>
-		</nav>
-	);
+	if (includeAdmin)
+	{
+		const isSelected: boolean = "/admin" == location.pathname;
+		navigationElements.push(
+			<TechnikButton
+				onClick={() => navigate("/admin")}
+				href={isSelected ? undefined : "/admin"}
+				disabled={isSelected}
+			>
+				Admin
+			</TechnikButton>,
+		);
+	}
+
+	return <nav className="navBar">{navigationElements}</nav>;
 }

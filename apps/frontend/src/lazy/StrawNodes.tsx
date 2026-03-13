@@ -1,14 +1,17 @@
 import { type JSX, type RefObject, useCallback, useEffect, useRef, useState } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { SketchPicker } from "react-color";
+import { TechnikButton } from "../GlobalNodes";
 
 export default function StrawNodes(): JSX.Element
 {
 	return (
-		<div style={{width: "100%", marginTop: "220px", marginBottom: "220px"}}>
+		<div style={{width: "100%", marginTop: "120px", marginBottom: "220px"}}>
 			<div style={{fontSize: 30}}>Go send me some stuff!</div>
-			<StrawText />
-			<StrawDraw />
+			<div style={{gap: "20px", display: "flex"}}>
+				<StrawDraw />
+				<StrawText />
+			</div>
 		</div>
 	);
 }
@@ -19,17 +22,32 @@ export function StrawDraw(): JSX.Element
 
 	const [drawColor, setDrawColor] = useState("#000000");
 	const [drawSize, setDrawSize] = useState(4);
+	const [isConfirming, setConfirmStatus] = useState(false);
 
 	function submit(): void
 	{
 		if (!drawRef.current) return;
+
 		const drawSaveString: string = drawRef.current.getSaveData();
 		const drawSave: any = JSON.parse(drawSaveString) as {};
+
+		if ((drawSave?.lines ?? []).length < 1) return;
+
+		if (!isConfirming)
+		{
+			setConfirmStatus(true);
+			return;
+		}
+
 		fetch("/api/straw/image", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify({save: drawSave, timestamp: new Date().toISOString()}),
 		});
+
+		drawRef.current.clear();
+
+		setConfirmStatus(false);
 	}
 
 	const hexRef: RefObject<HTMLDivElement | null> = useRef(null);
@@ -54,7 +72,16 @@ export function StrawDraw(): JSX.Element
 	useClickOutside(hexRef, close);
 
 	return (
-		<div style={{width: "400px", height: "max-content", maxWidth: "90vw", backgroundColor: "#3b3b3b62"}}>
+		<div
+			style={{
+				width: "400px",
+				height: "max-content",
+				maxWidth: "90vw",
+				backgroundColor: "#3e3e3e",
+				padding: "10px",
+				display: "table-cell",
+			}}
+		>
 			<div
 				style={{
 					position: "relative",
@@ -63,10 +90,12 @@ export function StrawDraw(): JSX.Element
 					marginBottom: "5px",
 					marginLeft: "auto",
 					marginRight: "auto",
+					justifyContent: "center",
+					alignItems: "center",
 					gap: "5px",
 				}}
 			>
-				<button onClick={_ => drawRef.current?.undo()}>Undo</button>
+				<TechnikButton onClick={() => drawRef.current?.undo()} fontSize="20px">Undo</TechnikButton>
 				<input
 					type="range"
 					name="Size"
@@ -81,11 +110,19 @@ export function StrawDraw(): JSX.Element
 					style={{backgroundColor: drawColor}}
 					onClick={_ => setDropdownOpen(true)}
 				/>
-				<button onClick={_ => drawRef.current?.eraseAll()}>Erase</button>
+				<TechnikButton onClick={() => drawRef.current?.eraseAll()} fontSize="20px">Erase</TechnikButton>
 
 				{isDropdownOpen && hexColorPicker}
 			</div>
-			<CanvasDraw ref={drawRef} hideGrid hideInterface brushColor={drawColor} brushRadius={drawSize} />
+			<CanvasDraw
+				canvasWidth={400}
+				canvasHeight={400}
+				ref={drawRef}
+				hideGrid
+				hideInterface
+				brushColor={drawColor}
+				brushRadius={drawSize}
+			/>
 			<div
 				style={{
 					marginTop: "5px",
@@ -95,7 +132,9 @@ export function StrawDraw(): JSX.Element
 					height: "auto",
 				}}
 			>
-				<button style={{width: "350px", height: "25px"}} onClick={_ => submit()}>Submit</button>
+				<TechnikButton onClick={submit} fontSize="25px">
+					{isConfirming ? "Are you sure?" : "Submit"}
+				</TechnikButton>
 			</div>
 		</div>
 	);
@@ -104,33 +143,45 @@ export function StrawDraw(): JSX.Element
 export function StrawText(): JSX.Element
 {
 	const inputRef: RefObject<HTMLInputElement | null> = useRef(null);
+	const [isConfirming, setConfirmStatus] = useState(false);
 
-	function submit(): void
+	function submit(e: React.SubmitEvent): void
 	{
+		e.preventDefault();
 		if (!inputRef.current?.value) return;
+
+		if (!isConfirming)
+		{
+			setConfirmStatus(true);
+			return;
+		}
 
 		fetch("/api/straw/text", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify({text: inputRef.current.value, timestamp: new Date().toISOString()}),
 		});
+
+		inputRef.current.value = "";
+		setConfirmStatus(false);
 	}
 
 	return (
-		<div style={{width: "max-content", marginTop: "20px", marginBottom: "30px"}}>
-			<div>
-				<input
-					ref={inputRef}
-					type="text"
-					maxLength={256}
-					placeholder="Send me a message!"
-					style={{width: "380px", height: "25px", fontSize: "15px"}}
-				/>
-			</div>
+		<form
+			onSubmit={submit}
+			style={{width: "max-content", height: "max-content", backgroundColor: "#3e3e3e", padding: "10px"}}
+		>
+			<input
+				ref={inputRef}
+				type="text"
+				maxLength={256}
+				placeholder="Send me a message!"
+				style={{width: "380px", height: "25px", fontSize: "15px"}}
+			/>
 			<div style={{width: "max-content", marginTop: "5px", marginLeft: "auto", marginRight: "auto"}}>
-				<button style={{width: "300px", height: "25px"}} onClick={_ => submit()}>Submit</button>
+				<TechnikButton>{isConfirming ? "Are you sure?" : "Submit"}</TechnikButton>
 			</div>
-		</div>
+		</form>
 	);
 }
 

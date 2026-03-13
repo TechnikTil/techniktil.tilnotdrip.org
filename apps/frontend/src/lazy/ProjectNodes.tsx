@@ -10,6 +10,7 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 import type { VFile } from "vfile";
 import { matter } from "vfile-matter";
+import { TechnikButton } from "../GlobalNodes";
 
 export default function Projects(): JSX.Element
 {
@@ -49,9 +50,9 @@ export default function Projects(): JSX.Element
 			const downloadNodes: JSX.Element[] = downloads.map((value: any, index: number, array: any[]) =>
 			{
 				return (
-					<Fragment>
-						<span style={{display: "inline-block", whiteSpace: "nowrap"}} key={`url${index}`}>
-							[<a href={value.url} className="yellow">{value.name}</a>]
+					<Fragment key={`url${index}`}>
+						<span style={{display: "inline-block", whiteSpace: "nowrap"}}>
+							<TechnikButton href={value.url}>{value.name}</TechnikButton>
 						</span>
 						{index < array.length - 1 && " "}
 					</Fragment>

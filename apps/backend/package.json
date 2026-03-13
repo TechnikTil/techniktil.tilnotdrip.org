@@ -4,17 +4,31 @@
 	"private": true,
 	"main": "src/index.ts",
 	"scripts": {
-		"dev": "bun --hot .",
-		"build": "bun build . --outdir ../../dist/backend --target bun"
+		"dev": "bun --hot --env-file ../../.env .",
+		"build": "bun build . --outdir ../../dist/backend --target bun",
+		"generate": "bunx --bun prisma generate",
+		"resetDev": "bunx --bun prisma migrate reset"
 	},
 	"dependencies": {
+		"@prisma/adapter-libsql": "^7.5.0",
+		"@prisma/client": "^7.5.0",
+		"@svgdotjs/svg.js": "^3.2.5",
 		"cors": "^2.8.6",
 		"date-fns-tz": "^3.2.0",
-		"express": "^5.2.1"
+		"discord.js": "^14.25.1",
+		"ejs": "^5.0.1",
+		"express": "^5.2.1",
+		"express-session": "^1.19.0",
+		"sanitize-filename-ts": "^1.0.2",
+		"svgdom": "^0.1.23"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.19",
+		"@types/ejs": "^3.1.5",
 		"@types/express": "^5.0.6",
-		"bun-types": "latest"
+		"@types/express-session": "^1.18.2",
+		"@types/svgdom": "^0.1.2",
+		"bun-types": "latest",
+		"prisma": "^7.5.0"
 	}
 }

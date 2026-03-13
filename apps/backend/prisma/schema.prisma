@@ -1,0 +1,23 @@
+generator client {
+    provider   = "prisma-client"
+    output     = "./generated"
+    engineType = "client"
+    runtime    = "bun"
+}
+
+datasource db {
+    provider = "sqlite"
+}
+
+model StrawGimmick {
+    id   Int      @id @default(autoincrement())
+    text String?  @unique
+    svg  String?  @unique
+    date DateTime
+}
+
+model AdminAccount {
+    username     String @unique
+    passwordHash String
+    passwordSalt String
+}
