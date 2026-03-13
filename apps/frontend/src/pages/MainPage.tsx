@@ -12,13 +12,13 @@ export default class MainPage extends Page
 	{
 		return (
 			<div>
-				<div style={{marginTop: 45, fontSize: 30}}>
+				<div className="pageHookTitle">
 					<this.RandomGreeting /> Welcome to my website!
 				</div>
-				<div style={{marginTop: 15, fontSize: 25}}>
+				<div className="mainExplanationText">
 					My good buddy ol' pal CrusherNotDrip decided to make a website about him, so he wouldn't need to
 					cram his about-me in every social media site possible. I thought that was a genius idea, so I
-					decided I was gonna{"  "}<span className="thick-strike">steal</span>{"  "}
+					decided I was gonna{"  "}<span className="thickStrike">steal</span>{"  "}
 					borrow that idea from him, and make a website about me too.
 				</div>
 

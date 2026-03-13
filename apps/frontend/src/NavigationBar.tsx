@@ -1,4 +1,4 @@
-import { Fragment, type JSX, useEffect, useState } from "react";
+import { type JSX, useEffect, useState } from "react";
 import { type Location, type NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { PAGES } from ".";
 import { TechnikButton } from "./GlobalNodes";
@@ -13,10 +13,8 @@ export default function NavigationBar(): JSX.Element
 
 	useEffect(() =>
 	{
-		fetch("/api/admin/check").then((response: Response) =>
-		{
-			setIncludeAdmin(response.ok);
-		});
+		if (includeAdmin) return;
+		fetch("/api/admin/check").then(i => setIncludeAdmin(i.ok));
 	}, [location]);
 
 	const navigationElements: JSX.Element[] = PAGES.map((data: typeof Page) =>
@@ -25,6 +23,7 @@ export default function NavigationBar(): JSX.Element
 
 		return (
 			<TechnikButton
+				key={data.url}
 				onClick={() => navigate(data.url)}
 				href={isSelected ? undefined : data.url}
 				disabled={isSelected}
@@ -36,9 +35,11 @@ export default function NavigationBar(): JSX.Element
 
 	if (includeAdmin)
 	{
+		// TODO: Make this better. Maybe PAGES should check for admin instead? That way this wouldn't be needed at all!
 		const isSelected: boolean = "/admin" == location.pathname;
 		navigationElements.push(
 			<TechnikButton
+				key="/admin"
 				onClick={() => navigate("/admin")}
 				href={isSelected ? undefined : "/admin"}
 				disabled={isSelected}

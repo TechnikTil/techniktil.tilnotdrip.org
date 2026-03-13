@@ -1,0 +1,95 @@
+.mainAdminContainer {
+	margin-top: 30px;
+	margin-bottom: 10px;
+
+	width: max-content;
+	height: max-content;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.adminPanelText {
+	font-size: 40px;
+}
+
+.adminPanelButtons {
+	display: flex;
+	gap: 5px;
+
+	margin-top: 5px;
+}
+
+.loginText {
+	width: 380px;
+}
+
+.loginLog {
+	width: 100%;
+	max-width: 100%;
+	font-size: 40px;
+}
+
+.loadingText {
+	font-size: 30px;
+}
+
+.strawPanel {
+	margin: 90px;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	width: max-content;
+	height: max-content;
+
+	background-color: #3e3e3e;
+	border-radius: 5px;
+
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+
+	font-size: 25px;
+
+	div {
+		text-shadow: black 2.2px 2px;
+	}
+
+	img {
+		filter: drop-shadow(2.2px 2px 0px black);
+	}
+}
+
+.strawPanelWebsiteText {
+	padding-bottom: 6px;
+}
+
+.strawPanelInnerText {
+	background-color: #555250;
+	padding: 6px;
+
+	max-width: 700px;
+	word-wrap: break-word;
+
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+	font-size: 30px;
+}
+
+.strawPanelBottom {
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.strawPanelIcons {
+	display: flex;
+	gap: 15px;
+
+	cursor: pointer;
+}

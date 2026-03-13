@@ -1,17 +1,14 @@
 import { formatDistanceToNowStrict } from "date-fns";
-import { Fragment, type JSX, useEffect, useEffectEvent, useState } from "react";
+import { Fragment, type JSX, useEffect, useState } from "react";
 import { TechnikButton } from "../GlobalNodes";
 
 export default function Straw(): JSX.Element
 {
-	const [loggedIn, setStatus] = useState(false);
+	const [strawDiv, setStrawDiv] = useState<JSX.Element>(<div className="loadingText">Loading...</div>);
 	const [setupGimmicks, setupGimmicksValue] = useState<boolean>(true);
-
-	const [strawDiv, setStrawDiv] = useState<JSX.Element>(<div style={{fontSize: "30px"}}>Loading...</div>);
 
 	useEffect(() =>
 	{
-		console.log(setupGimmicks);
 		if (!setupGimmicks) return;
 
 		fetch("/api/straw/list").then(i => i.json()).then((gimmicks: any[]) =>
@@ -38,74 +35,65 @@ export default function Straw(): JSX.Element
 					}
 
 					nodes.push(
-						<div key={data.id} className="strawPreview">
-							<div className="centered" style={{paddingBottom: "6px"}}>
-								<TechnikButton href="https://techniktil.tilnotdrip.org">
-									techniktil.tilnotdrip.org
-								</TechnikButton>
-							</div>
+						<div key={data.id} className="strawPanel">
+							<WebsiteText />
 							<div dangerouslySetInnerHTML={{__html: data.svg}} />
-							<div
-								style={{
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "space-between",
-									width: "100%",
-								}}
-							>
-								<div>{formatDistanceToNowStrict(date, {addSuffix: true})}</div>
-								<div style={{display: "flex", gap: "15px", cursor: "pointer"}}>
-									<img src="/images/panel/download.svg" height="25px" onClick={_ => download()} />
-									<img src="/images/panel/trash.svg" height="25px" onClick={_ => deleteGimmick()} />
-								</div>
-							</div>
+							<PreviewBottom date={date} download={download} trash={deleteGimmick} />
 						</div>,
 					);
 				}
 				else
 				{
 					nodes.push(
-						<div key={data.id} className="strawPreview">
-							<div className="centered" style={{paddingBottom: "6px"}}>
-								<TechnikButton href="https://techniktil.tilnotdrip.org">
-									techniktil.tilnotdrip.org
-								</TechnikButton>
-							</div>
-							<div className="strawPreviewText">"{data.text}"</div>
-							<div
-								style={{
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "space-between",
-									width: "100%",
-								}}
-							>
-								<div>{formatDistanceToNowStrict(date, {addSuffix: true})}</div>
-								<div style={{display: "flex", gap: "15px", cursor: "pointer"}}>
-									<img src="/images/panel/trash.svg" height="25px" onClick={_ => deleteGimmick()} />
-								</div>
-							</div>
+						<div key={data.id} className="strawPanel">
+							<WebsiteText />
+							<div className="centered strawPanelInnerText">"{data.text}"</div>
+							<PreviewBottom date={date} trash={deleteGimmick} />
 						</div>,
 					);
 				}
 
 				setStrawDiv(<Fragment>{nodes}</Fragment>);
-				setupGimmicksValue(false);
 			});
 		});
+
+		setupGimmicksValue(false);
 	}, [setupGimmicks]);
 
+	return <div className="centeredDiv">{strawDiv}</div>;
+}
+
+const PANEL_ICONS = ["download", "trash"] as const;
+
+function PreviewBottom(components: {date: Date; download?: () => void; trash?: () => void;}): JSX.Element
+{
+	const dateText: string = formatDistanceToNowStrict(components.date, {addSuffix: true});
+	const icons: JSX.Element[] = [];
+
+	PANEL_ICONS.forEach((id) =>
+	{
+		const action = components[id];
+		if (!action) return;
+
+		icons.push(<img key={id} src={`/images/panel/${id}.svg`} height="25px" onClick={_ => action()}></img>);
+	});
+
 	return (
-		<div
-			style={{
-				margin: "10px",
-				marginLeft: "auto",
-				marginRight: "auto",
-				width: "max-content",
-				height: "max-content",
-			}}
-		>
-			{strawDiv}
+		<div className="strawPanelBottom">
+			<div>{dateText}</div>
+			<div className="strawPanelIcons">{icons}</div>
+		</div>
+	);
+}
+
+function WebsiteText(): JSX.Element
+{
+	// Maybe add a constant to change the website?
+	// It could be that I change the URL at some point.
+
+	return (
+		<div className="centered strawPanelWebsiteText">
+			<TechnikButton href="https://techniktil.tilnotdrip.org">techniktil.tilnotdrip.org</TechnikButton>
 		</div>
 	);
 }

@@ -2,13 +2,14 @@ import { type JSX, type RefObject, useCallback, useEffect, useRef, useState } fr
 import CanvasDraw from "react-canvas-draw";
 import { SketchPicker } from "react-color";
 import { TechnikButton } from "../GlobalNodes";
+import "../styles/straw.css";
 
 export default function StrawNodes(): JSX.Element
 {
 	return (
-		<div style={{width: "100%", marginTop: "120px", marginBottom: "220px"}}>
-			<div style={{fontSize: 30}}>Go send me some stuff!</div>
-			<div style={{gap: "20px", display: "flex"}}>
+		<div className="strawContainer">
+			<div className="strawHookTitle">Go send me some stuff!</div>
+			<div className="strawNodeContainer">
 				<StrawDraw />
 				<StrawText />
 			</div>
@@ -52,17 +53,7 @@ export function StrawDraw(): JSX.Element
 
 	const hexRef: RefObject<HTMLDivElement | null> = useRef(null);
 	const hexColorPicker: JSX.Element = (
-		<div
-			ref={hexRef}
-			style={{
-				position: "absolute",
-				left: "50%",
-				transform: "translateX(-50%)",
-				width: "max-content",
-				top: "120%",
-				zIndex: 1000,
-			}}
-		>
+		<div ref={hexRef} className="colorpickerFull">
 			<SketchPicker disableAlpha color={drawColor} onChange={color => setDrawColor(color.hex)} />
 		</div>
 	);
@@ -72,29 +63,8 @@ export function StrawDraw(): JSX.Element
 	useClickOutside(hexRef, close);
 
 	return (
-		<div
-			style={{
-				width: "400px",
-				height: "max-content",
-				maxWidth: "90vw",
-				backgroundColor: "#3e3e3e",
-				padding: "10px",
-				display: "table-cell",
-			}}
-		>
-			<div
-				style={{
-					position: "relative",
-					width: "max-content",
-					display: "flex",
-					marginBottom: "5px",
-					marginLeft: "auto",
-					marginRight: "auto",
-					justifyContent: "center",
-					alignItems: "center",
-					gap: "5px",
-				}}
-			>
+		<div className="strawDraw">
+			<div className="strawDrawController">
 				<TechnikButton onClick={() => drawRef.current?.undo()} fontSize="20px">Undo</TechnikButton>
 				<input
 					type="range"
@@ -123,16 +93,8 @@ export function StrawDraw(): JSX.Element
 				brushColor={drawColor}
 				brushRadius={drawSize}
 			/>
-			<div
-				style={{
-					marginTop: "5px",
-					marginLeft: "auto",
-					marginRight: "auto",
-					width: "max-content",
-					height: "auto",
-				}}
-			>
-				<TechnikButton onClick={submit} fontSize="25px">
+			<div className="strawSubmit">
+				<TechnikButton onClick={submit} fontSize="20px">
 					{isConfirming ? "Are you sure?" : "Submit"}
 				</TechnikButton>
 			</div>
@@ -167,19 +129,16 @@ export function StrawText(): JSX.Element
 	}
 
 	return (
-		<form
-			onSubmit={submit}
-			style={{width: "max-content", height: "max-content", backgroundColor: "#3e3e3e", padding: "10px"}}
-		>
+		<form onSubmit={submit} className="strawText">
 			<input
 				ref={inputRef}
 				type="text"
 				maxLength={256}
 				placeholder="Send me a message!"
-				style={{width: "380px", height: "25px", fontSize: "15px"}}
+				className="strawTextInput"
 			/>
-			<div style={{width: "max-content", marginTop: "5px", marginLeft: "auto", marginRight: "auto"}}>
-				<TechnikButton>{isConfirming ? "Are you sure?" : "Submit"}</TechnikButton>
+			<div className="strawSubmit">
+				<TechnikButton fontSize="20px">{isConfirming ? "Are you sure?" : "Submit"}</TechnikButton>
 			</div>
 		</form>
 	);

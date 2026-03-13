@@ -7,9 +7,7 @@ const Admin: LazyExoticComponent<() => JSX.Element> = lazy(() => import("./admin
 
 export function WebsiteLogoText(): JSX.Element
 {
-	return (
-		<div className="centered" style={{marginTop: 15, fontWeight: "normal", fontSize: 50}}>TechnikTil's Website</div>
-	);
+	return <div className="centered websiteTitle">TechnikTil's Website</div>;
 }
 
 export function Pages(): JSX.Element
@@ -40,7 +38,7 @@ export function NotFound(): JSX.Element
 	return (
 		<div className="centered">
 			<h1>Page Not Found!</h1>
-			<h3 style={{fontWeight: "normal"}}>If this was on purpose, you can carry on...</h3>
+			<h3 className="normalWeight">If this was on purpose, you can carry on...</h3>
 		</div>
 	);
 }
@@ -51,7 +49,7 @@ export function WipDisclaimer(): JSX.Element
 	const stuffAlright: string = Math.random() <= 0.1 ? "Shit" : "Stuff";
 
 	return (
-		<div id="disclaimer" style={{marginTop: 80, fontSize: 20}}>
+		<div className="disclaimer">
 			If you haven't noticed, this website is heavily Work in Progress. {stuffAlright} will probably change.
 		</div>
 	);
@@ -77,7 +75,7 @@ export function TechnikButton(
 	}
 
 	return (
-		<div style={{fontSize: components.fontSize, fontWeight: "normal"}}>
+		<div className="normalWeight" style={{fontSize: components.fontSize}}>
 			[<a
 				className={components.disabled ? undefined : "yellow"}
 				href={(components.href || components.disabled) ? components.href : "#"}

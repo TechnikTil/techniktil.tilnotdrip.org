@@ -51,7 +51,7 @@ export default function Projects(): JSX.Element
 			{
 				return (
 					<Fragment key={`url${index}`}>
-						<span style={{display: "inline-block", whiteSpace: "nowrap"}}>
+						<span>
 							<TechnikButton href={value.url}>{value.name}</TechnikButton>
 						</span>
 						{index < array.length - 1 && " "}
@@ -60,14 +60,11 @@ export default function Projects(): JSX.Element
 			});
 
 			const node: JSX.Element = (
-				<div key={value} className="project">
-					<img
-						src={`images/projects/${dataMatter.image}`}
-						style={{width: "555px", height: "auto", maxWidth: "85vw"}}
-					/>
-					<div style={{marginTop: "5px", fontSize: "25px"}}>{dataMatter.name}</div>
-					<div style={{marginTop: "5px", fontSize: "18px"}}>{file.result as JSX.Element}</div>
-					<div className="centered" style={{marginTop: "15px", fontSize: "20px"}}>{downloadNodes}</div>
+				<div key={value} className="centeredDiv centered project">
+					<img src={`images/projects/${dataMatter.image}`} className="projectImage" />
+					<div className="projectName">{dataMatter.name}</div>
+					<div className="projectDescription">{file.result as JSX.Element}</div>
+					<div className="projectLinks">{downloadNodes}</div>
 				</div>
 			);
 

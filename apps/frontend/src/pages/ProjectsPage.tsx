@@ -10,15 +10,11 @@ export default class ProjectsPage extends Page
 
 	render(): JSX.Element
 	{
-		const loadingText: JSX.Element = (
-			<div style={{marginTop: "5px", fontSize: "25px"}} className="centered">If it loads, that is...</div>
-		);
+		const loadingText: JSX.Element = <div className="centered projectLoadingText">If it loads, that is...</div>;
 		return (
 			<div>
 				<this.CenterDisclaimer />
-				<div style={{marginTop: "45px", fontSize: "30px"}} className="centered">
-					Here are some of the things I have contributed to:
-				</div>
+				<div className="pageHookTitle centered">Here are some of the things I have contributed to:</div>
 
 				<Suspense fallback={loadingText}>
 					<Projects />

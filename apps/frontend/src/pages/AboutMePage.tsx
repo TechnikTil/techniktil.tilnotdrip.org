@@ -16,10 +16,10 @@ export default class AboutMePage extends Page
 		const fnf: JSX.Element = <a href="https://www.newgrounds.com/portal/view/770371">fnf</a>;
 
 		return (
-			<div>
-				<div style={{marginTop: 45, fontSize: 30}}>About Me:</div>
+			<div className="aboutMe">
+				<div className="pageHookTitle">About Me:</div>
 
-				<ul style={{marginTop: 10, fontSize: 25}}>
+				<ul>
 					<this.GetAge />
 					<li>A "Straight White Man" (scary)</li>
 					<li>
@@ -32,13 +32,13 @@ export default class AboutMePage extends Page
 					<this.GetTimeZone />
 					<li>i try to draw, but suck at it</li>
 					<li>
-						i made music <span style={{fontSize: 30}}>once</span>
+						i made music <span className="aboutMeOnceAdjust">once</span>
 					</li>
 					<li>{fnf} is love, {fnf} is life</li>
 					<li>will probably be a basement dweller for a living</li>
 					<li>
 						In a Discord Group Chat called "
-						<span style={{color: "#F58700"}}>Couples Counseling #1</span>" (don't ask)
+						<span className="cc1Text">Couples Counseling #1</span>" (don't ask)
 					</li>
 				</ul>
 			</div>

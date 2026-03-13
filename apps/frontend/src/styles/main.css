@@ -1,0 +1,187 @@
+@font-face {
+	font-family: "DigitalDisco";
+	src: url("/fonts/DigitalDisco.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@keyframes backdropIllusion {
+	to {
+		background-position: top 118px left 118px;
+	}
+}
+
+body {
+	font-family: "DigitalDisco";
+
+	/* I know theres a way to do this without an image, stop shouting t me*/
+	background: black url("/images/checkers.png") repeat;
+	animation: backdropIllusion linear 8s infinite;
+
+	color: white;
+}
+
+input {
+	background-color: black;
+	color: white;
+	font-family: "DigitalDisco";
+}
+
+button {
+	font-family: "DigitalDisco";
+}
+
+a {
+	color: white;
+}
+
+.websiteTitle {
+	margin-top: 15px;
+
+	font-weight: normal;
+	font-size: 50px;
+}
+
+.navBar {
+	width: max-content;
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 19.92px;
+	margin-bottom: 19.92px;
+
+	font-size: 1.5em;
+	font-weight: normal;
+
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 1ch;
+	column-gap: 0.31em;
+	align-items: center;
+	justify-content: center;
+
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.disclaimer {
+	margin-top: 80px;
+	font-size: 20px;
+}
+
+.yellow {
+	color: #fde541;
+}
+
+.centeredDiv {
+	width: max-content;
+	height: max-content;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.centered {
+	text-align: center;
+}
+
+.normalWeight {
+	font-weight: normal;
+}
+
+.thickStrike {
+	text-decoration: line-through;
+	text-decoration-thickness: 3px;
+}
+
+.pageHookTitle {
+	margin-top: 45px;
+	font-size: 30px;
+}
+
+.mainExplanationText {
+	margin-top: 15px;
+	font-size: 25px;
+}
+
+.aboutMe {
+	ul {
+		margin-top: 10px;
+		font-size: 25px;
+	}
+}
+
+.aboutMeOnceAdjust {
+	font-size: 30px;
+}
+
+.cc1Text {
+	color: #f58700;
+}
+
+.project {
+	margin-top: 10px;
+
+	background-color: #3e3e3e;
+	border-radius: 5px;
+	padding: 15px;
+
+	max-width: 90vw;
+	max-height: 90vh;
+
+	p {
+		margin: 0;
+	}
+}
+
+.projectLoadingText {
+	margin-top: 5px;
+	font-size: 25px;
+}
+
+.projectImage {
+	width: 555px;
+	height: auto;
+
+	max-width: 85vw;
+}
+
+.projectName {
+	font-size: 25px;
+	margin-top: 5px;
+}
+
+.projectDescription {
+	font-size: 18px;
+	margin-top: 5px;
+}
+
+.projectLinks {
+	font-size: 20px;
+	margin-top: 15px;
+
+	span {
+		display: inline-block;
+		white-space: nowrap;
+	}
+}
+
+.socialsHookDesc {
+	margin-top: 2px;
+	font-size: 22px;
+}
+
+.socials {
+	margin-top: 10px;
+	font-size: 20px;
+
+	div {
+		margin-top: 5px;
+	}
+
+	a {
+		color: #fde541;
+	}
+}

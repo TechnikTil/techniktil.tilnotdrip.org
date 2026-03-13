@@ -42,27 +42,25 @@ export default function Login(): JSX.Element
 	});
 
 	return (
-		<div style={{width: "max-content", height: "max-content", marginLeft: "auto", marginRight: "auto"}}>
-			<div style={{width: "max-content", height: "max-content", backgroundColor: "#7272729d", padding: "10px"}}>
+		<div className="centeredDiv">
+			<div className="strawText">
 				<input
 					ref={usernameInput}
 					type="text"
 					placeholder="Input your username"
-					style={{width: "380px", height: "25px", fontSize: "15px"}}
+					className="strawTextInput adminLoginText"
 				/>
 				<input
 					ref={passwordInput}
 					type="password"
 					placeholder="Input your password"
-					style={{width: "380px", height: "25px", fontSize: "15px"}}
+					className="strawTextInput adminLoginText"
 				/>
-				<div style={{width: "max-content", marginTop: "5px", marginLeft: "auto", marginRight: "auto"}}>
+				<div className="centeredDiv strawTextSubmit">
 					<TechnikButton onClick={submit}>Login</TechnikButton>
 				</div>
 			</div>
-			<div style={{marginTop: "10px", width: "100%", maxWidth: "100%", textAlign: "center", fontSize: "40px"}}>
-				{currentLog ? currentLog : "Pending..."}
-			</div>
+			<div className="centered loginLog">{currentLog ? currentLog : "Pending..."}</div>
 		</div>
 	);
 }

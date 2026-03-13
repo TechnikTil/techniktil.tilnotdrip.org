@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./main.css";
+import "./styles/main.css";
 import { BrowserRouter } from "react-router-dom";
 import ApiCache from "./ApiCache.tsx";
 import * as GlobalNodes from "./GlobalNodes.tsx";

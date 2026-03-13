@@ -12,8 +12,8 @@ export default class SocialsPage extends Page
 	{
 		return (
 			<div>
-				<div style={{marginTop: 45, fontSize: 30}}>My Socials!</div>
-				<div style={{marginTop: 2, fontSize: 22}}>
+				<div className="pageHookTitle">My Socials!</div>
+				<div className="socialsHookDesc">
 					99% of the time, the user will be <span className="yellow">TechnikTil</span>
 					. Here are some important links though:
 				</div>
@@ -29,7 +29,7 @@ export default class SocialsPage extends Page
 				{ApiCache.socialsData.map((value: any) =>
 				{
 					const link: JSX.Element = <a href={value.url}>{value.name}</a>;
-					return <div key={value.name}>{value.platform}: {link}</div>;
+					return <div key={value.platform}>{value.platform}: {link}</div>;
 				})}
 			</div>
 		);
