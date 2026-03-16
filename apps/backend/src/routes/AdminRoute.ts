@@ -6,14 +6,7 @@ import prisma from "prisma/db";
 import { AdminAccount } from "prisma/generated/client";
 import { promisify } from "util";
 
-declare module "express-session"
-{
-	interface SessionData
-	{
-		adminUsername: string;
-		adminCipher: string;
-	}
-}
+const COOKIE_EXPIRY: Date = new Date(253402300000000);
 
 export default class AdminRoute extends Route
 {
@@ -35,8 +28,8 @@ export default class AdminRoute extends Route
 
 		app.post("/admin/login", async (req: Request, res: Response) =>
 		{
-			req.session.adminUsername = undefined;
-			req.session.adminCipher = undefined;
+			res.clearCookie("adminUsername");
+			res.clearCookie("adminCipher");
 
 			const body: LoginBody | undefined = req.body as LoginBody | undefined;
 			if (!body)
@@ -62,15 +55,16 @@ export default class AdminRoute extends Route
 				return;
 			}
 
-			req.session.adminUsername = account.username;
-			req.session.adminCipher = createCipher(account);
+			res.cookie("adminUsername", account.username, {expires: COOKIE_EXPIRY});
+			res.cookie("adminCipher", createCipher(account), {expires: COOKIE_EXPIRY});
 			res.sendStatus(200);
 		});
 
 		app.delete("/admin/login", async (req: Request, res: Response) =>
 		{
-			req.session.adminUsername = undefined;
-			req.session.adminCipher = undefined;
+			// I'll take this as a log out.
+			res.clearCookie("adminUsername");
+			res.clearCookie("adminCipher");
 			res.sendStatus(200);
 		});
 
@@ -85,17 +79,18 @@ type LoginBody = {username: string; hash: string;};
 
 export async function isAdmin(req: Request, res: Response, next: NextFunction)
 {
-	if (!req.session.adminUsername || !req.session.adminCipher)
+	const username: string | undefined = req.cookies.adminUsername as string | undefined;
+	const cipher: string | undefined = req.cookies.adminCipher as string | undefined;
+
+	if (!username || !cipher)
 	{
 		res.status(401).send("Not Logged In");
 		return;
 	}
 
-	const admin: AdminAccount | null = await prisma.adminAccount.findUnique({
-		where: {username: req.session.adminUsername},
-	});
+	const admin: AdminAccount | null = await prisma.adminAccount.findUnique({where: {username}});
 
-	if (!admin || !checkCipher(req.session.adminCipher, admin))
+	if (!admin || !checkCipher(cipher, admin))
 	{
 		res.status(401).send("Outdated Account");
 		return;

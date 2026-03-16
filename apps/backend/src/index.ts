@@ -1,13 +1,13 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import { randomBytes } from "crypto";
 import express, { Application, Request, Response } from "express";
-import session from "express-session";
 import { promisify } from "util";
 import ROUTES from "./routes";
 
 const app: Application = express();
 const PORT: number = 5000;
-const SECRET: string | undefined = Bun.env.SESSION_SECRET;
+const SECRET: string | undefined = Bun.env.COOKIE_SECRET;
 
 async function main(): Promise<void>
 {
@@ -15,14 +15,8 @@ async function main(): Promise<void>
 	app.use(express.json());
 	app.disable("etag");
 
-	app.use(
-		session({
-			secret: SECRET || await promisify(randomBytes)(32),
-			resave: true,
-			saveUninitialized: true,
-			cookie: {maxAge: 253402300000000},
-		}),
-	);
+	const generatedSecret: Buffer = await promisify(randomBytes)(32);
+	app.use(cookieParser(SECRET || generatedSecret.toBase64()));
 
 	for (const Route of ROUTES) Route.init(app);
 

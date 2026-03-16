@@ -13,20 +13,20 @@
 		"@prisma/adapter-libsql": "^7.5.0",
 		"@prisma/client": "^7.5.0",
 		"@svgdotjs/svg.js": "^3.2.5",
+		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.6",
 		"date-fns-tz": "^3.2.0",
 		"discord.js": "^14.25.1",
 		"ejs": "^5.0.1",
 		"express": "^5.2.1",
-		"express-session": "^1.19.0",
 		"sanitize-filename-ts": "^1.0.2",
 		"svgdom": "^0.1.23"
 	},
 	"devDependencies": {
+		"@types/cookie-parser": "^1.4.10",
 		"@types/cors": "^2.8.19",
 		"@types/ejs": "^3.1.5",
 		"@types/express": "^5.0.6",
-		"@types/express-session": "^1.18.2",
 		"@types/svgdom": "^0.1.2",
 		"bun-types": "latest",
 		"prisma": "^7.5.0"
