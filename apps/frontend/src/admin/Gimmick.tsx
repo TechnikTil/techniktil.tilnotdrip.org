@@ -2,23 +2,23 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { Fragment, type JSX, useEffect, useState } from "react";
 import { TechnikButton } from "../GlobalNodes";
 
-export default function Straw(): JSX.Element
+export default function Gimmick(): JSX.Element
 {
-	const [strawDiv, setStrawDiv] = useState<JSX.Element>(<div className="loadingText">Loading...</div>);
+	const [gimmickDiv, setGimmickDiv] = useState<JSX.Element>(<div className="loadingText">Loading...</div>);
 	const [setupGimmicks, setupGimmicksValue] = useState<boolean>(true);
 
 	useEffect(() =>
 	{
 		if (!setupGimmicks) return;
 
-		fetch("/api/straw/list").then(i => i.json()).then((gimmicks: any[]) =>
+		fetch("/api/gimmick/list").then(i => i.json()).then((gimmicks: any[]) =>
 		{
 			let nodes: JSX.Element[] = [];
 			gimmicks.forEach((data: any) =>
 			{
 				async function deleteGimmick(): Promise<void>
 				{
-					const response: Response = await fetch(`/api/straw/delete/${data.id}`, {method: "DELETE"});
+					const response: Response = await fetch(`/api/gimmick/delete/${data.id}`, {method: "DELETE"});
 					if (response.ok) setupGimmicksValue(true);
 				}
 
@@ -53,14 +53,14 @@ export default function Straw(): JSX.Element
 					);
 				}
 
-				setStrawDiv(<Fragment>{nodes}</Fragment>);
+				setGimmickDiv(<Fragment>{nodes}</Fragment>);
 			});
 		});
 
 		setupGimmicksValue(false);
 	}, [setupGimmicks]);
 
-	return <div className="centeredDiv">{strawDiv}</div>;
+	return <div className="centeredDiv">{gimmickDiv}</div>;
 }
 
 const PANEL_ICONS = ["download", "trash"] as const;

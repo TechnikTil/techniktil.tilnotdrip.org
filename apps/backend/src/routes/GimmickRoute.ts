@@ -10,11 +10,11 @@ const window: SVGWindow = createSVGWindow();
 const document: SVGDocument = window.document;
 registerWindow(window, document);
 
-export default class StrawRoute extends Route
+export default class GimmickRoute extends Route
 {
 	public static init(app: Application): void
 	{
-		app.post("/straw/text", async (req: Request, res: Response) =>
+		app.post("/gimmick/text", async (req: Request, res: Response) =>
 		{
 			const text: string = req.body?.text ?? "";
 			const date: Date = new Date(req.body?.timestamp ?? Date.now());
@@ -33,7 +33,7 @@ export default class StrawRoute extends Route
 			}
 		});
 
-		app.post("/straw/image", async (req: Request, res: Response) =>
+		app.post("/gimmick/image", async (req: Request, res: Response) =>
 		{
 			const save: CanvasSave = req.body?.save ?? {} as CanvasSave;
 			const date: Date = new Date(req.body?.timestamp ?? Date.now());
@@ -52,13 +52,13 @@ export default class StrawRoute extends Route
 			}
 		});
 
-		app.get("/straw/list", isAdmin, async (_req: Request, res: Response) =>
+		app.get("/gimmick/list", isAdmin, async (_req: Request, res: Response) =>
 		{
 			const gimmicks: StrawGimmick[] = await prisma.strawGimmick.findMany({orderBy: [{date: "asc"}]});
 			res.status(200).json(gimmicks);
 		});
 
-		app.delete("/straw/delete/:id", isAdmin, async (req: Request, res: Response) =>
+		app.delete("/gimmick/delete/:id", isAdmin, async (req: Request, res: Response) =>
 		{
 			const id: string = req.params.id as string;
 

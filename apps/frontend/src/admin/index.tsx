@@ -1,15 +1,11 @@
 import { Fragment, type JSX, useState } from "react";
 import { TechnikButton } from "../GlobalNodes";
+import Gimmick from "./Gimmick";
 import Login from "./Login";
-import Straw from "./Straw";
 import "../styles/admin.css";
 import "../styles/straw.css";
 
-const OPTIONS = [{id: "login", name: "Login", element: <Login />}, {
-	id: "straw",
-	name: "Straw",
-	element: <Straw />,
-}] as const;
+const OPTIONS = [{name: "Login", element: <Login />}, {name: "Gimmick", element: <Gimmick />}] as const;
 
 export default function Admin(): JSX.Element
 {
@@ -18,11 +14,11 @@ export default function Admin(): JSX.Element
 	const buttons: JSX.Element[] = [];
 	let node: JSX.Element = <Fragment />;
 
-	OPTIONS.forEach(({id, name, element}) =>
+	OPTIONS.forEach(({name, element}) =>
 	{
-		const isSelected: boolean = mode == id;
+		const isSelected: boolean = mode == name;
 		buttons.push(
-			<TechnikButton key={id} fontSize="30px" disabled={isSelected} onClick={() => setCurrentMode(id)}>
+			<TechnikButton key={name} fontSize="30px" disabled={isSelected} onClick={() => setCurrentMode(name)}>
 				{name}
 			</TechnikButton>,
 		);

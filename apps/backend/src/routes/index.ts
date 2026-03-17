@@ -1,8 +1,8 @@
 import Route from "@/Route";
 import AdminRoute from "./AdminRoute";
 import EmbedRoute from "./EmbedRoute";
-import StrawRoute from "./StrawRoute";
+import GimmickRoute from "./GimmickRoute";
 import TimezoneRoute from "./TimezoneRoute";
 
-const ROUTES: typeof Route[] = [EmbedRoute, StrawRoute, TimezoneRoute, AdminRoute];
+const ROUTES: typeof Route[] = [EmbedRoute, GimmickRoute, TimezoneRoute, AdminRoute];
 export default ROUTES;
