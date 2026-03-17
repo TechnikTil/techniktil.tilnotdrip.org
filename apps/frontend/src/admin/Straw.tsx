@@ -18,7 +18,7 @@ export default function Straw(): JSX.Element
 			{
 				async function deleteGimmick(): Promise<void>
 				{
-					const response: Response = await fetch(`/api/straw/delete?id=${data.id}`, {method: "DELETE"});
+					const response: Response = await fetch(`/api/straw/delete/${data.id}`, {method: "DELETE"});
 					if (response.ok) setupGimmicksValue(true);
 				}
 
