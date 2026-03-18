@@ -28,7 +28,7 @@ export default function Admin(): JSX.Element
 	return (
 		<div>
 			<div className="mainAdminContainer">
-				<div className="centered adminPanelText">da admin peanel</div>
+				<div className="centered adminPanelText">Welcome to the "Admin Peanel"</div>
 				<div className="centeredDiv adminPanelButtons">{buttons}</div>
 			</div>
 			{node}

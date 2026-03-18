@@ -12,6 +12,7 @@
 .strawNodeContainer {
 	gap: 20px;
 	display: flex;
+	flex-wrap: wrap;
 }
 
 .strawDraw {
@@ -19,7 +20,7 @@
 	max-width: 90vw;
 	height: max-content;
 
-	display: table-cell;
+	display: block;
 
 	background-color: #3e3e3e;
 	padding: 10px;
@@ -67,14 +68,21 @@
 .strawText {
 	width: max-content;
 	height: max-content;
+	max-width: 90vw;
+
 	background-color: #3e3e3e;
 	padding: 10px;
 }
 
 .strawTextInput {
+	box-sizing: border-box;
+	max-width: 100%;
+
 	width: 380px;
-	height: 25px;
+	height: 35px;
+
 	font-size: 15px;
+	padding: 0 5px;
 }
 
 .strawSubmit {

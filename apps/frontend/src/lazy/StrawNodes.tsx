@@ -1,8 +1,20 @@
-import { type JSX, type RefObject, useCallback, useEffect, useRef, useState } from "react";
-import CanvasDraw from "react-canvas-draw";
+import {
+	Component,
+	createRef,
+	type CSSProperties,
+	Fragment,
+	type JSX,
+	type RefObject,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { SketchPicker } from "react-color";
 import { TechnikButton } from "../GlobalNodes";
 import "../styles/straw.css";
+import { type ArrayXY, Polyline, SVG, type Svg } from "@svgdotjs/svg.js";
+import { LazyBrush, type Point } from "lazy-brush";
 
 export default function StrawNodes(): JSX.Element
 {
@@ -29,8 +41,7 @@ export function StrawDraw(): JSX.Element
 	{
 		if (!drawRef.current) return;
 
-		const drawSaveString: string = drawRef.current.getSaveData();
-		const drawSave: any = JSON.parse(drawSaveString) as {};
+		const drawSave: CanvasSave = drawRef.current.getSave();
 
 		if ((drawSave?.lines ?? []).length < 1) return;
 
@@ -40,13 +51,13 @@ export function StrawDraw(): JSX.Element
 			return;
 		}
 
-		fetch("/api/straw/image", {
+		fetch("/api/gimmick/image", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify({save: drawSave, timestamp: new Date().toISOString()}),
 		});
 
-		drawRef.current.clear();
+		drawRef.current.clear(true);
 
 		setConfirmStatus(false);
 	}
@@ -80,18 +91,18 @@ export function StrawDraw(): JSX.Element
 					style={{backgroundColor: drawColor}}
 					onClick={_ => setDropdownOpen(true)}
 				/>
-				<TechnikButton onClick={() => drawRef.current?.eraseAll()} fontSize="20px">Erase</TechnikButton>
+				<TechnikButton onClick={() => drawRef.current?.clear(false)} fontSize="20px">Erase</TechnikButton>
 
 				{isDropdownOpen && hexColorPicker}
 			</div>
 			<CanvasDraw
-				canvasWidth={400}
-				canvasHeight={400}
+				width={400}
+				height={400}
+				style={{maxWidth: "99%", height: "auto"}}
 				ref={drawRef}
-				hideGrid
-				hideInterface
-				brushColor={drawColor}
-				brushRadius={drawSize}
+				strokeColor={drawColor}
+				strokeWidth={drawSize}
+				color="white"
 			/>
 			<div className="strawSubmit">
 				<TechnikButton onClick={submit} fontSize="20px">
@@ -107,9 +118,9 @@ export function StrawText(): JSX.Element
 	const inputRef: RefObject<HTMLInputElement | null> = useRef(null);
 	const [isConfirming, setConfirmStatus] = useState(false);
 
-	function submit(e: React.SubmitEvent): void
+	function submit(e?: React.SubmitEvent): void
 	{
-		e.preventDefault();
+		e?.preventDefault();
 		if (!inputRef.current?.value) return;
 
 		if (!isConfirming)
@@ -118,7 +129,7 @@ export function StrawText(): JSX.Element
 			return;
 		}
 
-		fetch("/api/straw/text", {
+		fetch("/api/gimmick/text", {
 			method: "POST",
 			headers: {"Content-Type": "application/json"},
 			body: JSON.stringify({text: inputRef.current.value, timestamp: new Date().toISOString()}),
@@ -138,7 +149,9 @@ export function StrawText(): JSX.Element
 				className="strawTextInput"
 			/>
 			<div className="strawSubmit">
-				<TechnikButton fontSize="20px">{isConfirming ? "Are you sure?" : "Submit"}</TechnikButton>
+				<TechnikButton onClick={submit} fontSize="20px">
+					{isConfirming ? "Are you sure?" : "Submit"}
+				</TechnikButton>
 			</div>
 		</form>
 	);
@@ -179,3 +192,216 @@ function useClickOutside(ref: RefObject<any>, handler: () => void): void
 		};
 	}, [ref, handler]);
 }
+
+/**
+ * A canvas you can draw on.
+ * Heavily based off of `react-canvas-draw`.
+ */
+export class CanvasDraw extends Component<CanvasProps, CanvasState>
+{
+	props: CanvasProps = {width: 400, height: 400, color: "white", style: {}, strokeColor: "black", strokeWidth: 4};
+	state: CanvasState = {history: [[]]};
+
+	history!: CanvasLine[][];
+	svgRef: RefObject<SVGSVGElement | null> = createRef();
+	lazyBrush: LazyBrush = new LazyBrush({enabled: false});
+	activeLine?: Polyline;
+
+	getSave(): CanvasSave
+	{
+		return {width: this.props.width, height: this.props.height, lines: this.history[0]};
+	}
+
+	undo(): void
+	{
+		if (this.history.length > 1) this.history.shift();
+		this.updateHistory();
+	}
+
+	clear(removeHistory: boolean = false): void
+	{
+		if (removeHistory)
+		{
+			this.history = [[]];
+		}
+		else
+		{
+			this.history.unshift([]);
+		}
+
+		this.updateHistory();
+	}
+
+	render(): JSX.Element
+	{
+		this.history = this.state.history;
+
+		return (
+			<svg
+				style={{...this.props.style, touchAction: "none"}}
+				viewBox={`0 0 ${this.props.width} ${this.props.height}`}
+				width={this.props.width}
+				height={this.props.height}
+				ref={this.svgRef}
+				onMouseDown={e => this.startDraw(e)}
+				onMouseMove={e => this.draw(e)}
+				onMouseUp={e => this.endDraw(e)}
+				onMouseLeave={e => this.endDraw(e)}
+				onTouchStart={e => this.startDraw(e)}
+				onTouchMove={e => this.draw(e)}
+				onTouchEnd={e => this.endDraw(e)}
+				onTouchCancel={e => this.endDraw(e)}
+			/>
+		);
+	}
+
+	componentDidMount(): void
+	{
+		this.updateSVG();
+	}
+
+	componentDidUpdate(): void
+	{
+		this.updateSVG();
+	}
+
+	updateSVG(): void
+	{
+		if (!this.svgRef.current) return;
+		const canvas: Svg = SVG(this.svgRef.current);
+
+		canvas.clear();
+		canvas.size(this.props.width, this.props.height);
+		canvas.namespace();
+
+		canvas.rect("100%", "100%").fill("#fff");
+
+		for (const line of this.state.history[0] ?? [])
+		{
+			const points: ArrayXY[] = line.points.map(value => [value.x, value.y]);
+			const svgLine: Polyline = canvas.polyline(points);
+			svgLine.fill("none");
+			svgLine.stroke({color: line.brushColor, width: line.brushRadius * 2, linecap: "round", linejoin: "round"});
+		}
+	}
+
+	startDraw(event: React.MouseEvent | React.TouchEvent): void
+	{
+		this.lazyBrush.enable();
+		this.lazyBrush.setRadius(this.props.strokeWidth / 2);
+
+		const hexColor: string = this.getHexColor(this.props.strokeColor);
+		const brushRadius: number = this.props.strokeWidth;
+
+		const oldLines: CanvasLine[] = this.history[0] ?? [];
+		this.history.unshift([...oldLines, {points: [], brushColor: hexColor, brushRadius: brushRadius}]);
+
+		const canvas: Svg = SVG(this.svgRef.current!);
+		this.activeLine = canvas.polyline([]);
+		this.activeLine.fill("none");
+		this.activeLine.stroke({color: hexColor, width: brushRadius * 2, linecap: "round", linejoin: "round"});
+
+		this.draw(event, true);
+	}
+
+	draw(event: React.MouseEvent | React.TouchEvent, force: boolean = false): void
+	{
+		const point: Point | undefined = this.getPos(event);
+		if (point) this.lazyBrush.update(point);
+
+		if (force || (this.lazyBrush.isEnabled() && this.lazyBrush.brushHasMoved()))
+		{
+			const point: Point = this.lazyBrush.getBrushCoordinates();
+			const lines: CanvasLine[] = this.history[0];
+			const curLine: CanvasLine = lines[lines.length - 1];
+			const lastPoint: Point | undefined = curLine.points[curLine.points.length - 1];
+
+			if (lastPoint && !force)
+			{
+				const dx = point.x - lastPoint.x;
+				const dy = point.y - lastPoint.y;
+				if (Math.abs(dx) + Math.abs(dy) < 3) return;
+			}
+
+			lines[lines.length - 1].points.push(point);
+
+			if (this.activeLine)
+			{
+				const points: ArrayXY[] = curLine.points.map(p => [p.x, p.y]);
+				this.activeLine.plot(points);
+			}
+		}
+	}
+
+	endDraw(event: React.MouseEvent | React.TouchEvent): void
+	{
+		if (!this.lazyBrush.isEnabled()) return;
+
+		this.draw(event, true);
+		this.lazyBrush.disable();
+
+		this.activeLine = undefined;
+		this.updateHistory();
+	}
+
+	getPos(event: React.MouseEvent | React.TouchEvent): Point | undefined
+	{
+		if (!this.svgRef.current) return undefined;
+
+		const mouseEvent: React.MouseEvent = event as React.MouseEvent;
+		const touchEvent: React.TouchEvent = event as React.TouchEvent;
+
+		const rect: DOMRect = this.svgRef.current.getBoundingClientRect();
+
+		const isTouch: boolean = touchEvent.touches && touchEvent.touches.length > 0;
+		const clientX: number | undefined = isTouch ? touchEvent.touches[0].clientX : mouseEvent.clientX;
+		const clientY: number | undefined = isTouch ? touchEvent.touches[0].clientY : mouseEvent.clientY;
+
+		if (!clientX || !clientY) return undefined;
+
+		var point: Point = {
+			x: (clientX - rect.left) * (this.props.width / rect.width),
+			y: (clientY - rect.top) * (this.props.height / rect.height),
+		};
+		return point;
+	}
+
+	/**
+	 * I love hacky workarounds.
+	 */
+	getHexColor(cssColor: CSSProperties["color"]): string
+	{
+		const div = document.createElement("div");
+		div.style.color = cssColor as string;
+		document.body.appendChild(div);
+		const computed = getComputedStyle(div).color;
+		document.body.removeChild(div);
+
+		const [r, g, b] = computed.match(/\d+/g)!.map(Number);
+		return "#" + [r, g, b].map(i => i.toString(16).padStart(2, "0")).join("");
+	}
+
+	updateHistory(): void
+	{
+		this.setState(() =>
+		{
+			if (this.history.length > 10) this.history.length = 10;
+			return {history: this.history};
+		});
+	}
+}
+
+type CanvasProps = {
+	width: number;
+	height: number;
+	color: CSSProperties["color"];
+	style?: CSSProperties;
+
+	strokeColor: CSSProperties["color"];
+	strokeWidth: number;
+};
+
+type CanvasState = {history: CanvasLine[][];};
+
+type CanvasSave = {width: number; height: number; lines: CanvasLine[];};
+type CanvasLine = {points: Point[]; brushColor: string; brushRadius: number;};

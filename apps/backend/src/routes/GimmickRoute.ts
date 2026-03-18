@@ -54,7 +54,7 @@ export default class GimmickRoute extends Route
 
 		app.get("/gimmick/list", isAdmin, async (_req: Request, res: Response) =>
 		{
-			const gimmicks: StrawGimmick[] = await prisma.strawGimmick.findMany({orderBy: [{date: "asc"}]});
+			const gimmicks: StrawGimmick[] = await prisma.strawGimmick.findMany({orderBy: [{date: "desc"}]});
 			res.status(200).json(gimmicks);
 		});
 

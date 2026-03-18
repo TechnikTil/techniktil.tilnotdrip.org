@@ -12,7 +12,6 @@
 	"dependencies": {
 		"@prisma/adapter-libsql": "^7.5.0",
 		"@prisma/client": "^7.5.0",
-		"@svgdotjs/svg.js": "^3.2.5",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.6",
 		"date-fns-tz": "^3.2.0",
