@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"types": ["bun-types"],
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"paths": {
+			"database": ["./database"],
+			"@/*": ["./src/*"]
+		},
+		"noEmit": true
+	},
+	"include": ["src/**/*.ts", "database/**/*.ts"]
+}

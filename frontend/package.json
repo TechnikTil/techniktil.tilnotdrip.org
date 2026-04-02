@@ -1,0 +1,39 @@
+{
+	"name": "frontend",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "bun vite --host",
+		"build": "bun vite build",
+		"lint": "eslint .",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"date-fns": "^4.1.0",
+		"http-status-codes": "^2.3.0",
+		"lazy-brush": "^2.0.2",
+		"react": "^19.1.1",
+		"react-color": "^2.19.3",
+		"react-dom": "^19.1.1",
+		"react-router-dom": "^7.13.1",
+		"rehype": "^13.0.2",
+		"rehype-raw": "^7.0.0",
+		"rehype-react": "^8.0.0",
+		"rehype-sanitize": "^6.0.0",
+		"remark": "^15.0.1",
+		"remark-frontmatter": "^5.0.0",
+		"remark-rehype": "^11.1.2",
+		"vfile": "^6.0.3",
+		"vfile-matter": "^5.0.1",
+		"@svgdotjs/svg.js": "^3.2.5"
+	},
+	"devDependencies": {
+		"@types/react": "^19.1.13",
+		"@types/react-dom": "^19.1.9",
+		"@vitejs/plugin-react": "^5.0.3",
+		"@types/react-color": "^3.0.13",
+		"eslint-plugin-react-hooks": "^5.2.0",
+		"eslint-plugin-react-refresh": "^0.4.20",
+		"vite": "^7.1.7"
+	}
+}
