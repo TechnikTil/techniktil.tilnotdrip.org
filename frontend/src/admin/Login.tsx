@@ -1,5 +1,3 @@
-import { hash } from "bcryptjs";
-import { getReasonPhrase } from "http-status-codes";
 import { type JSX, type RefObject, useEffect, useEffectEvent, useRef, useState } from "react";
 import { TechnikButton } from "../GlobalNodes";
 
@@ -16,15 +14,8 @@ export default function Login(): JSX.Element
 			const username: string = usernameInput.current?.value ?? "";
 			const passPlain: string = passwordInput.current?.value ?? "";
 
-			const saltResponse: Response = await fetch(`/api/admin/salt/${username}`);
-			setCurrentLog(`Salt: ${getReasonPhrase(saltResponse.status)}`);
-			if (!saltResponse.ok) return;
-
-			const salt: string = await saltResponse.text();
-			const passHash: string = await hash(passPlain, salt);
-
 			const response: Response = await fetch(`/api/admin/login`, {
-				body: JSON.stringify({username: usernameInput.current?.value, hash: passHash}),
+				body: JSON.stringify({username: username, password: passPlain}),
 				headers: {"Content-Type": "application/json"},
 				method: "POST",
 			});

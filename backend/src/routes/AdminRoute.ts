@@ -34,7 +34,9 @@ export default class AdminRoute implements Route
 			const token: string = jwt.sign({userID: account.id, username: account.username}, SECRET ?? "", {
 				expiresIn: "2W",
 			});
+
 			res.cookie("adminToken", token, {httpOnly: true, secure: true, sameSite: "strict"});
+			res.sendStatus(200);
 		});
 
 		app.post("/admin/register", isAdmin, async (req: Request, res: Response) =>
