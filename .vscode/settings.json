@@ -1,0 +1,32 @@
+{
+	"[json]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[html]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[css]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[prisma]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "Prisma.prisma"
+	},
+	"[typescript]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "dprint.dprint"
+	},
+	"[typescriptreact]": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.defaultFormatter": "dprint.dprint"
+	}
+}
