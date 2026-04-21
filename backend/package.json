@@ -3,11 +3,15 @@
 	"type": "module",
 	"private": true,
 	"main": "src/index.ts",
+	"scripts": {
+		"build": "bun run ../utils/build.ts",
+		"dev": "bun run --hot --no-clear-screen ."
+	},
 	"dependencies": {
-		"@prisma/adapter-pg": "^7.6.0",
 		"bcryptjs": "^3.0.3",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.6",
+		"database": "workspace:*",
 		"date-fns-tz": "^3.2.0",
 		"ejs": "^5.0.1",
 		"express": "^5.2.1",
@@ -21,10 +25,6 @@
 		"@types/jsonwebtoken": "^9.0.10",
 		"@types/pg": "^8.20.0",
 		"@types/svgdom": "^0.1.2",
-		"bunup": "0.16.31",
 		"prisma": "^7.6.0"
-	},
-	"patchedDependencies": {
-		"bunup@0.16.31": "patches/bunup.patch"
 	}
 }

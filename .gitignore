@@ -34,8 +34,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .DS_Store
 
 # Prisma Generations and Migrations
-backend/database/generated/*
-backend/database/migrations/*
+database/generated/*
+database/migrations/*
 
 # Private Progress Generator
 progress_gen/*

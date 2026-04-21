@@ -30,5 +30,5 @@
 **/dev.db
 
 # Prisma Generations and Migrations
-**/backend/database/generated/*
-**/backend/database/migrations/*
+**/database/generated/*
+**/database/migrations/*

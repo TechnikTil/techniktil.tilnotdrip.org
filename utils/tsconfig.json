@@ -10,10 +10,7 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		},
 		"noEmit": true
 	},
-	"include": ["./src/**/*.ts"]
+	"include": ["./build.ts"]
 }

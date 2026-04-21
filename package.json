@@ -2,20 +2,9 @@
 	"name": "techniktil.tilnotdrip.org",
 	"displayName": "TechnikWebsite",
 	"private": true,
-	"workspaces": [
-		"frontend",
-		"backend"
-	],
 	"scripts": {
-		"dev": "bun --bun concurrently --kill-others-on-fail 'bun run dev:frontend' 'bun run dev:backend'",
-		"build": "bun run build:frontend && bun run build:backend",
-		"build:frontend": "bun --cwd frontend --bun vite build",
-		"build:backend": "bun --cwd backend --bun bunup",
-		"dev:frontend": "bun --cwd frontend --bun vite --host",
-		"dev:backend": "bun run --cwd backend --hot --no-clear-screen .",
-		"db:init": "bun run --bun prisma migrate dev --name init",
-		"db:generate": "bun run --bun prisma generate",
-		"db:reset": "bun rimraf backend/database/migrations && bun run --bun prisma migrate reset && bun db:init"
+		"dev": "pnpm run -r --parallel dev",
+		"build": "pnpm run -r build"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.36.0",

@@ -1,0 +1,9 @@
+packages:
+  - 'frontend'
+  - 'backend'
+  - 'database'
+  - 'cli'
+allowBuilds:
+  '@prisma/engines': true
+  esbuild: true
+  prisma: true
