@@ -1,9 +1,8 @@
 import type { Property } from "csstype";
-import { type ComponentType, type JSX, lazy, type LazyExoticComponent, Suspense } from "react";
+import { type ComponentType, type JSX } from "react";
 import { Route, Routes } from "react-router-dom";
-import { PAGES } from ".";
+import { PAGES } from "./pages";
 import type Page from "./pages/Page";
-const Admin: LazyExoticComponent<() => JSX.Element> = lazy(() => import("./admin"));
 
 export function WebsiteLogoText(): JSX.Element
 {
@@ -19,16 +18,6 @@ export function Pages(): JSX.Element
 	});
 
 	routeElements.push(<Route path="*" element={<NotFound />} />);
-	routeElements.push(
-		<Route
-			path="/admin"
-			element={
-				<Suspense>
-					<Admin />
-				</Suspense>
-			}
-		/>,
-	);
 
 	return <Routes>{routeElements}</Routes>;
 }

@@ -1,7 +1,7 @@
-import { Fragment, type JSX, useEffect } from "react";
-import ApiCache from "../ApiCache.tsx";
-import { TechnikButton } from "../GlobalNodes.tsx";
-import Page from "./Page.tsx";
+import { Fragment, type JSX, useEffect, useState } from "react";
+import ApiCache from "../ApiCache";
+import { TechnikButton } from "../GlobalNodes";
+import Page from "./Page";
 
 export default class ProjectsPage extends Page
 {
@@ -11,9 +11,25 @@ export default class ProjectsPage extends Page
 
 	render(): JSX.Element
 	{
-		const data: ProjectsData[] | undefined = ApiCache.get("/api/data/projects") as ProjectsData[] | undefined;
+		return (
+			<div>
+				<this.CenterDisclaimer />
+				<div className="pageHookTitle centered">Here are some of the things I have contributed to:</div>
+				<this.List />
+			</div>
+		);
+	}
 
-		const projects: JSX.Element[] = (data ?? []).map(value =>
+	List(): JSX.Element[]
+	{
+		const [data, setData] = useState<ProjectsData[] | null>(null);
+
+		useEffect(() =>
+		{
+			ApiCache.getReact("/api/data/projects", setData);
+		});
+
+		return (data ?? []).map(value =>
 		{
 			const downloadNodes: JSX.Element[] = value.downloads.map(
 				(download: ProjectDownload, index: number, array: ProjectDownload[]) =>
@@ -38,15 +54,6 @@ export default class ProjectsPage extends Page
 				</div>
 			);
 		});
-
-		return (
-			<div>
-				<this.CenterDisclaimer />
-				<div className="pageHookTitle centered">Here are some of the things I have contributed to:</div>
-
-				{projects}
-			</div>
-		);
 	}
 
 	CenterDisclaimer(): null

@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 export const ENDPOINTS = [
 	"/api/data/greetings",
 	"/api/data/timezone",
@@ -7,63 +9,57 @@ export const ENDPOINTS = [
 
 export type ApiCacheEndpoint = (typeof ENDPOINTS)[number];
 
-class ApiCache implements ReadonlyMap<ApiCacheEndpoint, unknown>
+class ApiCache
 {
-	private readonly registry: Map<ApiCacheEndpoint, unknown> = new Map<ApiCacheEndpoint, unknown>();
+	private readonly registry: Map<ApiCacheEndpoint, unknown>;
+	private promiseList: Set<ApiCacheEndpoint>;
 
-	async load(): Promise<void>
+	constructor()
 	{
-		const promises: Promise<void>[] = ENDPOINTS.map(v => this.loadEndpoint(v));
-		await Promise.all(promises);
+		this.registry = new Map<ApiCacheEndpoint, unknown>();
+		this.promiseList = new Set<ApiCacheEndpoint>();
+
+		for (const endpoint of ENDPOINTS)
+		{
+			const promise: Promise<unknown> = fetch(endpoint).then(v => v.json());
+
+			this.registry.set(endpoint, promise);
+			this.promiseList.add(endpoint);
+
+			promise.then(value =>
+			{
+				this.registry.set(endpoint, value);
+				this.promiseList.delete(endpoint);
+			}, () =>
+			{
+				this.registry.delete(endpoint);
+				this.promiseList.delete(endpoint);
+
+				console.log(`${endpoint} failed!`);
+			});
+		}
 	}
 
-	async loadEndpoint(endpoint: ApiCacheEndpoint)
+	async get(key: ApiCacheEndpoint): Promise<unknown>
 	{
-		const response: Response = await fetch(endpoint as string);
-		this.registry.set(endpoint, await response.json());
-	}
+		if (this.promiseList.has(key))
+		{
+			const promise: Promise<unknown> = this.registry.get(key) as Promise<unknown>;
+			return (await promise);
+		}
 
-	forEach(
-		callbackfn: (value: unknown, key: ApiCacheEndpoint, map: ReadonlyMap<ApiCacheEndpoint, unknown>) => void,
-		thisArg?: never,
-	): void
-	{
-		this.registry.forEach(callbackfn, thisArg);
-	}
-
-	get(key: ApiCacheEndpoint): unknown
-	{
 		return this.registry.get(key);
 	}
 
-	has(key: ApiCacheEndpoint): boolean
+	getReact<T>(key: ApiCacheEndpoint, setValue: Dispatch<SetStateAction<T | null>>): void
 	{
-		return this.registry.has(key);
-	}
-
-	get size(): number
-	{
-		return this.registry.size;
-	}
-
-	entries(): MapIterator<[ApiCacheEndpoint, unknown]>
-	{
-		return this.registry.entries();
-	}
-
-	keys(): MapIterator<ApiCacheEndpoint>
-	{
-		return this.registry.keys();
-	}
-
-	values(): MapIterator<unknown>
-	{
-		return this.registry.values();
-	}
-
-	[Symbol.iterator](): MapIterator<[ApiCacheEndpoint, unknown]>
-	{
-		return this.registry.entries();
+		this.get(key).then((value: unknown) =>
+		{
+			setValue(value as T);
+		}, () =>
+		{
+			setValue(null);
+		});
 	}
 }
 

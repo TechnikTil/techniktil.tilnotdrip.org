@@ -1,6 +1,6 @@
-import { Fragment, type JSX, lazy, type LazyExoticComponent, Suspense } from "react";
-import ApiCache from "../ApiCache.tsx";
-import Page from "./Page.tsx";
+import { Fragment, type JSX, lazy, type LazyExoticComponent, Suspense, useEffect, useState } from "react";
+import ApiCache from "../ApiCache";
+import Page from "./Page";
 const StrawNodes: LazyExoticComponent<() => JSX.Element> = lazy(() => import("../StrawNodes.tsx"));
 
 export default class MainPage extends Page
@@ -31,8 +31,14 @@ export default class MainPage extends Page
 
 	RandomGreeting(): JSX.Element | null
 	{
-		const greetingList: string[] = ApiCache.get("/api/data/greetings") as string[];
-		if (greetingList.length < 1) return <Fragment />;
+		const [greetingList, setGreetingList] = useState<string[] | null>(null);
+
+		useEffect(() =>
+		{
+			ApiCache.getReact("/api/data/greetings", setGreetingList);
+		});
+
+		if (!greetingList || greetingList.length < 1) return <Fragment />;
 
 		const index: number = Math.floor(Math.random() * greetingList.length);
 		return <span>{greetingList[index]}</span>;

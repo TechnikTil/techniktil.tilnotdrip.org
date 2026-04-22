@@ -62,6 +62,7 @@ export default class AboutMePage extends Page
 
 	GetTimeZone(): JSX.Element
 	{
+		const [timeZoneData, setTimeZoneData] = useState<TimeZoneData | null>(null);
 		const [now, setNow] = useState<Date>(new Date());
 
 		useEffect(() =>
@@ -78,7 +79,10 @@ export default class AboutMePage extends Page
 			};
 		});
 
-		const timeZoneData: TimeZoneData | undefined = ApiCache.get("/api/data/timezone") as TimeZoneData | undefined;
+		useEffect(() =>
+		{
+			ApiCache.getReact("/api/data/timezone", setTimeZoneData);
+		});
 
 		if (!timeZoneData) return <Fragment />;
 

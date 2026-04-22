@@ -1,45 +1,60 @@
-import { Fragment, type JSX, useState } from "react";
+import { Fragment, type JSX, lazy, type LazyExoticComponent, Suspense } from "react";
 import { TechnikButton } from "../GlobalNodes";
-import Gimmick from "./Gimmick";
-import Login from "./Login";
 import "../styles/admin.css";
 import "../styles/straw.css";
+import Page from "../pages/Page";
+
+const Gimmick: LazyExoticComponent<() => JSX.Element> = lazy(() => import("./Gimmick"));
+const Login: LazyExoticComponent<() => JSX.Element> = lazy(() => import("./Login"));
 
 const OPTIONS = [{name: "Login", element: <Login />}, {name: "Gimmick", element: <Gimmick />}] as const;
 
-export default function Admin(): JSX.Element
+export default class AdminRoute extends Page
 {
-	const [mode, setCurrentMode] = useState<string | null>(null);
+	static navName = "Admin";
+	static url = "/admin";
+	static pageTitle = "Admin Peanel";
 
-	const buttons: JSX.Element[] = [];
-	let node: JSX.Element = <Fragment />;
+	state: {mode: string | null;} = {mode: null};
 
-	OPTIONS.forEach(({name, element}) =>
+	render(): JSX.Element
 	{
-		const isSelected: boolean = mode == name;
-		buttons.push(
-			<TechnikButton
-				key={name}
-				fontSize="30px"
-				disabled={isSelected}
-				onClick={() =>
-				{
-					setCurrentMode(name);
-				}}
-			>
-				{name}
-			</TechnikButton>,
-		);
-		if (isSelected) node = element;
-	});
+		const buttons: JSX.Element[] = [];
+		let node: JSX.Element = <Fragment />;
 
-	return (
-		<div>
-			<div className="mainAdminContainer">
-				<div className="centered adminPanelText">Welcome to the "Admin Peanel"</div>
-				<div className="centeredDiv adminPanelButtons">{buttons}</div>
+		OPTIONS.forEach(({name, element}) =>
+		{
+			const isSelected: boolean = this.state.mode == name;
+			buttons.push(
+				<TechnikButton
+					key={name}
+					fontSize="30px"
+					disabled={isSelected}
+					onClick={() =>
+					{
+						this.setState({mode: name});
+					}}
+				>
+					{name}
+				</TechnikButton>,
+			);
+			if (isSelected) node = element;
+		});
+
+		return (
+			<div>
+				<div className="mainAdminContainer">
+					<div className="centered adminPanelText">Welcome to the "Admin Peanel"</div>
+					<div className="centeredDiv adminPanelButtons">{buttons}</div>
+				</div>
+				<Suspense>{node}</Suspense>
 			</div>
-			{node}
-		</div>
-	);
+		);
+	}
+
+	static async shouldShow(): Promise<boolean>
+	{
+		const response: Response = await fetch("/api/admin/check");
+		return response.ok;
+	}
 }

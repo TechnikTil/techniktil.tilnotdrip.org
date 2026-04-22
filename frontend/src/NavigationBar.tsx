@@ -1,7 +1,7 @@
 import { type JSX, useEffect, useState } from "react";
 import { type Location, type NavigateFunction, useLocation, useNavigate } from "react-router-dom";
-import { PAGES } from ".";
 import { TechnikButton } from "./GlobalNodes";
+import { PAGES } from "./pages";
 import type Page from "./pages/Page";
 
 export default function NavigationBar(): JSX.Element
@@ -9,51 +9,49 @@ export default function NavigationBar(): JSX.Element
 	const location: Location = useLocation();
 	const navigate: NavigateFunction = useNavigate();
 
-	const [includeAdmin, setIncludeAdmin] = useState<boolean>(false);
+	const [allowedList, setList] = useState<Set<string>>(new Set<string>());
+
+	const navigationElements: JSX.Element[] = [];
 
 	useEffect(() =>
 	{
-		if (includeAdmin) return;
-		fetch("/api/admin/check").then(i =>
+		async function func(data: typeof Page): Promise<void>
 		{
-			setIncludeAdmin(i.ok);
-		}).catch((v: unknown) =>
-		{
-			console.error(v);
-		});
-	}, [location]);
+			const shouldShow: boolean = await data.shouldShow();
+			const addToList: boolean = shouldShow !== allowedList.has(data.url);
 
-	const navigationElements: JSX.Element[] = PAGES.map((data: typeof Page) =>
+			setList(oldList =>
+			{
+				const list: Set<string> = new Set<string>(oldList);
+
+				if (addToList)
+				{
+					list.add(data.url);
+				}
+				else
+				{
+					list.delete(data.url);
+				}
+
+				return list;
+			});
+		}
+
+		setList(new Set<string>());
+		void Promise.all(PAGES.map(v => func(v)));
+	}, []);
+
+	PAGES.forEach((data: typeof Page) =>
 	{
 		const isSelected: boolean = data.url == location.pathname;
+		if (!allowedList.has(data.url)) return;
 
-		return (
-			<TechnikButton
-				key={data.url}
-				onClick={() => void navigate(data.url)}
-				href={data.url}
-				disabled={isSelected}
-			>
-				{data.navName}
-			</TechnikButton>
-		);
-	});
-
-	if (includeAdmin)
-	{
-		// TODO: Make this better. Maybe PAGES should check for admin instead? That way this wouldn't be needed at all!
-		const isSelected: boolean = "/admin" == location.pathname;
 		navigationElements.push(
-			<TechnikButton
-				key="/admin"
-				onClick={() => void navigate("/admin")}
-				href={isSelected ? undefined : "/admin"}
-				disabled={isSelected}
-			>
-				Admin
+			<TechnikButton key={data.url} onClick={() => void navigate(data.url)} href={data.url} disabled={isSelected}>
+				{data.navName}
 			</TechnikButton>,
 		);
-	}
+	});
 
 	return <nav className="navBar">{navigationElements}</nav>;
 }

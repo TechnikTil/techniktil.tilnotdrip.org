@@ -1,4 +1,4 @@
-import { type JSX } from "react";
+import { type JSX, useEffect, useState } from "react";
 import ApiCache from "../ApiCache";
 import Page from "./Page";
 
@@ -24,11 +24,16 @@ export default class SocialsPage extends Page
 
 	List(): JSX.Element
 	{
-		const socialsData: SocialPlatform[] = ApiCache.get("/api/data/socials") as SocialPlatform[];
+		const [socialsData, setSocialsData] = useState<SocialPlatform[] | null>(null);
+
+		useEffect(() =>
+		{
+			ApiCache.getReact("/api/data/socials", setSocialsData);
+		});
 
 		return (
 			<div className="socials">
-				{socialsData.map((value: SocialPlatform) =>
+				{(socialsData ?? []).map((value: SocialPlatform) =>
 				{
 					const link: JSX.Element = <a href={value.url}>{value.name}</a>;
 					return <div key={value.platform}>{value.platform}: {link}</div>;
