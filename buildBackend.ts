@@ -40,10 +40,6 @@ function buildPlugins(): Bun.BunPlugin[]
 
 				await fs.rm(outdir, {recursive: true, force: true});
 				await fs.mkdir(outdir);
-
-				fs.cp("./assets", "./dist/assets", {recursive: true, force: true}).then(() =>
-					console.log("Finished copying Assets!")
-				);
 			});
 		},
 	}, {
@@ -54,6 +50,15 @@ function buildPlugins(): Bun.BunPlugin[]
 			{
 				console.log(args.path);
 				return undefined;
+			});
+		},
+	}, {
+		name: "copyAssets",
+		setup(build: Bun.PluginBuilder)
+		{
+			build.onEnd(async (result) =>
+			{
+				await fs.cp("./assets", "./dist/assets", {recursive: true, force: true});
 			});
 		},
 	}];
