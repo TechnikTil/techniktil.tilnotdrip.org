@@ -5,7 +5,7 @@
 	"main": "src/index.ts",
 	"scripts": {
 		"build": "bun run ../utils/build.ts",
-		"dev": "bun run --hot --no-clear-screen ."
+		"dev": "bun run --env-file ../.env.local --hot --no-clear-screen ."
 	},
 	"dependencies": {
 		"bcryptjs": "^3.0.3",

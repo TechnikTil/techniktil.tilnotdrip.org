@@ -1,14 +1,4 @@
-import {
-	Component,
-	createRef,
-	type CSSProperties,
-	type JSX,
-	type RefObject,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
+import { Component, createRef, type CSSProperties, type JSX, type RefObject, useEffect, useRef, useState } from "react";
 import { SketchPicker } from "react-color";
 import { TechnikButton } from "./GlobalNodes";
 import "./styles/straw.css";
@@ -17,13 +7,28 @@ import { LazyBrush, type Point } from "lazy-brush";
 
 export default function StrawNodes(): JSX.Element
 {
+	const gimmickContainerRef: RefObject<HTMLDivElement | null> = useRef(null);
+	const [isGimmickOpen, setGimmickOpen] = useState(false);
+
+	const gimmickContainer: JSX.Element = (
+		<div className="strawNodeContainer" ref={gimmickContainerRef}>
+			<StrawDraw />
+			<StrawText />
+		</div>
+	);
+
 	return (
 		<div className="strawContainer">
-			<div className="strawHookTitle">Go send me some stuff!</div>
-			<div className="strawNodeContainer">
-				<StrawDraw />
-				<StrawText />
+			<div
+				className="strawHookTitle"
+				onClick={() =>
+				{
+					setGimmickOpen(!isGimmickOpen);
+				}}
+			>
+				<span>Go send me some stuff!</span> <span className={isGimmickOpen ? "arrowDown" : ""}>&gt;</span>
 			</div>
+			{isGimmickOpen && gimmickContainer}
 		</div>
 	);
 }
@@ -75,12 +80,11 @@ export function StrawDraw(): JSX.Element
 	);
 
 	const [isDropdownOpen, setDropdownOpen] = useState(false);
-	const close = useCallback(() =>
+
+	useClickOutside(hexRef as RefObject<HTMLElement>, () =>
 	{
 		setDropdownOpen(false);
-	}, []);
-
-	if (hexRef.current != null) useClickOutside(hexRef as RefObject<HTMLElement>, close);
+	});
 
 	return (
 		<div className="strawDraw">
@@ -155,7 +159,7 @@ export function StrawText(): JSX.Element
 	}
 
 	return (
-		<form onSubmit={submit} className="strawText">
+		<div className="strawText">
 			<input
 				ref={inputRef}
 				type="text"
@@ -168,14 +172,16 @@ export function StrawText(): JSX.Element
 					{isConfirming ? "Are you sure?" : "Submit"}
 				</TechnikButton>
 			</div>
-		</form>
+		</div>
 	);
 }
 
-function useClickOutside(ref: RefObject<HTMLElement>, handler: () => void): void
+function useClickOutside(ref: RefObject<HTMLElement | undefined>, handler: () => void): void
 {
 	useEffect(() =>
 	{
+		if (!ref.current) return;
+
 		let startedInside = false;
 		let startedWhenMounted: HTMLElement | undefined = undefined;
 
@@ -184,7 +190,7 @@ function useClickOutside(ref: RefObject<HTMLElement>, handler: () => void): void
 			// Do nothing if `mousedown` or `touchstart` started inside ref element
 			if (startedInside || !startedWhenMounted) return;
 			// Do nothing if clicking ref's element or descendent elements
-			if (ref.current.contains(event.target as Node | null)) return;
+			if (ref.current?.contains(event.target as Node | null)) return;
 
 			handler();
 		};
@@ -193,7 +199,7 @@ function useClickOutside(ref: RefObject<HTMLElement>, handler: () => void): void
 		{
 			if (!event.target) return;
 			startedWhenMounted = ref.current;
-			startedInside = ref.current.contains(event.target as Node | null);
+			startedInside = ref.current?.contains(event.target as Node | null) ?? false;
 		};
 
 		document.addEventListener("mousedown", validateEventStart);
@@ -215,7 +221,15 @@ function useClickOutside(ref: RefObject<HTMLElement>, handler: () => void): void
  */
 export class CanvasDraw extends Component<CanvasProps, CanvasState>
 {
-	props: CanvasProps = {width: 400, height: 400, color: "white", style: {}, strokeColor: "black", strokeWidth: 4};
+	static defaultProps: CanvasProps = {
+		width: 400,
+		height: 400,
+		color: "white",
+		style: {},
+		strokeColor: "black",
+		strokeWidth: 4,
+	};
+
 	state: CanvasState = {history: [[]]};
 
 	history!: CanvasLine[][];

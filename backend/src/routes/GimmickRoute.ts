@@ -16,10 +16,8 @@ export default class GimmickRoute implements Route
 
 			try
 			{
-				await prisma.strawGimmick.create({data: {text: text, date: date}});
-				console.log(
-					`Wrote new gimmick (Text, ${date.toISOString()}, ${String(await prisma.strawGimmick.count())})`,
-				);
+				const data = await prisma.strawGimmick.create({data: {text: text, date: date}});
+				console.log(`Wrote new gimmick (Text, ${data.date.toISOString()}, ${data.id})`);
 
 				res.sendStatus(200);
 			}
@@ -38,10 +36,8 @@ export default class GimmickRoute implements Route
 
 			try
 			{
-				await prisma.strawGimmick.create({data: {svg, date}});
-				console.log(
-					`Wrote new gimmick (Image, ${date.toISOString()}, ${String(await prisma.strawGimmick.count())})`,
-				);
+				const data = await prisma.strawGimmick.create({data: {svg, date}});
+				console.log(`Wrote new gimmick (Image, ${data.date.toISOString()}, ${data.id})`);
 
 				res.sendStatus(200);
 			}

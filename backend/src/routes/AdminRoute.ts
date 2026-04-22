@@ -50,6 +50,7 @@ export default class AdminRoute implements Route
 
 			const hash: string = await bcrypt.hash(body.password, 12);
 			await prisma.adminAccount.create({data: {username: body.username, passwordHash: hash}});
+			console.log(`Registered ${body.username}!`);
 
 			res.sendStatus(200);
 		});

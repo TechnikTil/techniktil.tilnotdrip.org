@@ -44,6 +44,7 @@ a {
 
 .navBar {
 	width: max-content;
+	max-width: 100vw;
 
 	margin-left: auto;
 	margin-right: auto;
@@ -60,9 +61,6 @@ a {
 	align-items: center;
 	justify-content: center;
 
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 

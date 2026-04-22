@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "bun run vite --host",
+		"dev": "bun run --env-file ../.env.local vite --host",
 		"build": "bun run vite build",
 		"lint": "bun run eslint ."
 	},
