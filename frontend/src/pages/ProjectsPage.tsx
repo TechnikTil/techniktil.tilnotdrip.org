@@ -53,14 +53,21 @@ export default class ProjectsPage extends Page
 	{
 		useEffect(() =>
 		{
-			const disclaimer: HTMLElement | null = document.getElementById("disclaimer");
-			if (!disclaimer) return;
+			const disclaimers: HTMLElement[] = Array.from(
+				document.getElementsByClassName("disclaimer"),
+			) as HTMLElement[];
 
-			disclaimer.className = "centered";
+			disclaimers.forEach((element: HTMLElement) =>
+			{
+				element.classList.add("centered");
+			});
 
 			return () =>
 			{
-				disclaimer.className = "";
+				disclaimers.forEach((element: HTMLElement) =>
+				{
+					element.classList.remove("centered");
+				});
 			};
 		});
 
