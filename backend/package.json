@@ -4,7 +4,7 @@
 	"private": true,
 	"main": "src/index.ts",
 	"scripts": {
-		"build": "bun run ../utils/build.ts",
+		"build": "bun run ../buildBackend.ts",
 		"dev": "bun run --env-file ../.env.local --hot --no-clear-screen ."
 	},
 	"dependencies": {
