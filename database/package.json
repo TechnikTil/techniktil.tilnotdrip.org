@@ -1,22 +1,22 @@
 {
-	"name": "database",
-	"private": true,
-	"main": "index.ts",
-	"types": "./index.ts",
-	"exports": {
-		".": "./index.ts"
-	},
-	"scripts": {
-		"init": "bun run --bun prisma migrate dev --name init",
-		"generate": "bun run --bun prisma generate",
-		"reset": "bun rimraf database/migrations && bun run --bun prisma migrate reset && pnpm run init"
-	},
-	"dependencies": {
-		"@prisma/adapter-pg": "^7.6.0",
-		"@prisma/client": "^7.7.0"
-	},
-	"devDependencies": {
-		"dotenv": "^17.4.2",
-		"prisma": "^7.6.0"
-	}
+  "name": "database",
+  "private": true,
+  "main": "index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "init": "bun run --bun prisma migrate dev --name init",
+    "generate": "bun run --bun prisma generate",
+    "reset": "bun rimraf database/migrations && bun run --bun prisma migrate reset && pnpm run init"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.6.0",
+    "@prisma/client": "^7.7.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2",
+    "prisma": "^7.6.0"
+  }
 }

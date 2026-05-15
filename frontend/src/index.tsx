@@ -9,23 +9,23 @@ export const DEFAULT_TITLE = "TechnikTil's Website";
 
 function main(): void
 {
-	const rootElement: HTMLElement | null = document.getElementById("root");
-	if (!rootElement)
-	{
-		const e: Error = new Error("Root element could not be found!");
-		throw e;
-	}
+  const rootElement: HTMLElement | null = document.getElementById("root");
+  if (!rootElement)
+  {
+    const e: Error = new Error("Root element could not be found!");
+    throw e;
+  }
 
-	createRoot(rootElement).render(
-		<StrictMode>
-			<BrowserRouter>
-				<GlobalNodes.WebsiteLogoText />
-				<NavigationBar />
-				<GlobalNodes.Pages />
-				<GlobalNodes.WipDisclaimer />
-			</BrowserRouter>
-		</StrictMode>,
-	);
+  createRoot(rootElement).render(
+    <StrictMode>
+      <BrowserRouter>
+        <GlobalNodes.WebsiteLogoText />
+        <NavigationBar />
+        <GlobalNodes.Pages />
+        <GlobalNodes.WipDisclaimer />
+      </BrowserRouter>
+    </StrictMode>
+  );
 }
 
 main();

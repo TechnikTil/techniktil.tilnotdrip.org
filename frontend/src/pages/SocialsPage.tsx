@@ -4,48 +4,48 @@ import Page from "./Page";
 
 export default class SocialsPage extends Page
 {
-	static navName = "Socials";
-	static url = "/socials";
-	static pageTitle = "Socials!";
+  static navName = "Socials";
+  static url = "/socials";
+  static pageTitle = "Socials!";
 
-	render(): JSX.Element
-	{
-		return (
-			<div>
-				<div className="pageHookTitle">My Socials!</div>
-				<div className="socialsHookDesc">
-					99% of the time, the user will be <span className="yellow">TechnikTil</span>
-					. Here are some important links though:
-				</div>
-				<this.List />
-			</div>
-		);
-	}
+  render(): JSX.Element
+  {
+    return (
+      <div>
+        <div className="pageHookTitle">My Socials!</div>
+        <div className="socialsHookDesc">
+          99% of the time, the user will be <span className="yellow">TechnikTil</span>
+          . Here are some important links though:
+        </div>
+        <this.List />
+      </div>
+    );
+  }
 
-	List(): JSX.Element
-	{
-		const [socialsData, setSocialsData] = useState<SocialPlatform[] | null>(null);
+  List(): JSX.Element
+  {
+    const [socialsData, setSocialsData] = useState<SocialPlatform[] | null>(null);
 
-		useEffect(() =>
-		{
-			ApiCache.getReact("/api/data/socials", setSocialsData);
-		});
+    useEffect(() =>
+    {
+      ApiCache.getReact("/api/data/socials", setSocialsData);
+    });
 
-		return (
-			<div className="socials">
-				{(socialsData ?? []).map((value: SocialPlatform) =>
-				{
-					const link: JSX.Element = <a href={value.url}>{value.name}</a>;
-					return <div key={value.platform}>{value.platform}: {link}</div>;
-				})}
-			</div>
-		);
-	}
+    return (
+      <div className="socials">
+        {(socialsData ?? []).map((value: SocialPlatform) =>
+        {
+          const link: JSX.Element = <a href={value.url}>{value.name}</a>;
+          return <div key={value.platform}>{value.platform}: {link}</div>;
+        })}
+      </div>
+    );
+  }
 }
 
 interface SocialPlatform
 {
-	platform: string;
-	name: string;
-	url: string;
+  platform: string;
+  name: string;
+  url: string;
 }

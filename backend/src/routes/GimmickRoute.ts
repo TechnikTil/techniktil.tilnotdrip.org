@@ -5,81 +5,81 @@ import { isAdmin } from "./AdminRoute";
 
 export default class GimmickRoute implements Route
 {
-	init(app: Application): void
-	{
-		app.post("/gimmick/text", async (req: Request, res: Response) =>
-		{
-			const body: GimmickTextBody | undefined = req.body as GimmickTextBody | undefined;
+  init(app: Application): void
+  {
+    app.post("/gimmick/text", async (req: Request, res: Response) =>
+    {
+      const body: GimmickTextBody | undefined = req.body as GimmickTextBody | undefined;
 
-			const text: string = body?.text ?? "";
-			const date: Date = new Date(body?.timestamp ?? Date.now());
+      const text: string = body?.text ?? "";
+      const date: Date = new Date(body?.timestamp ?? Date.now());
 
-			try
-			{
-				const data = await prisma.strawGimmick.create({data: {text: text, date: date}});
-				console.log(`Wrote new gimmick (Text, ${data.date.toISOString()}, ${data.id})`);
+      try
+      {
+        const data = await prisma.strawGimmick.create({data: {text: text, date: date}});
+        console.log(`Wrote new gimmick (Text, ${data.date.toISOString()}, ${data.id})`);
 
-				res.sendStatus(200);
-			}
-			catch (e)
-			{
-				console.error(e);
-				res.sendStatus(400);
-			}
-		});
+        res.sendStatus(200);
+      }
+      catch (e)
+      {
+        console.error(e);
+        res.sendStatus(400);
+      }
+    });
 
-		app.post("/gimmick/image", async (req: Request, res: Response) =>
-		{
-			const body: GimmickImageBody | undefined = req.body as GimmickImageBody | undefined;
-			const svg: string = body?.svg ?? "";
-			const date: Date = new Date(body?.timestamp ?? Date.now());
+    app.post("/gimmick/image", async (req: Request, res: Response) =>
+    {
+      const body: GimmickImageBody | undefined = req.body as GimmickImageBody | undefined;
+      const svg: string = body?.svg ?? "";
+      const date: Date = new Date(body?.timestamp ?? Date.now());
 
-			try
-			{
-				const data = await prisma.strawGimmick.create({data: {svg, date}});
-				console.log(`Wrote new gimmick (Image, ${data.date.toISOString()}, ${data.id})`);
+      try
+      {
+        const data = await prisma.strawGimmick.create({data: {svg, date}});
+        console.log(`Wrote new gimmick (Image, ${data.date.toISOString()}, ${data.id})`);
 
-				res.sendStatus(200);
-			}
-			catch (e)
-			{
-				console.error(e);
-				res.sendStatus(400);
-			}
-		});
+        res.sendStatus(200);
+      }
+      catch (e)
+      {
+        console.error(e);
+        res.sendStatus(400);
+      }
+    });
 
-		app.get("/gimmick/list", isAdmin, async (_req: Request, res: Response) =>
-		{
-			const gimmicks: StrawGimmick[] = await prisma.strawGimmick.findMany({orderBy: [{date: "desc"}]});
-			res.status(200).json(gimmicks);
-		});
+    app.get("/gimmick/list", isAdmin, async (_req: Request, res: Response) =>
+    {
+      const gimmicks: StrawGimmick[] = await prisma.strawGimmick.findMany({orderBy: [{date: "desc"}]});
+      res.status(200).json(gimmicks);
+    });
 
-		app.delete("/gimmick/delete/:id", isAdmin, async (req: Request, res: Response) =>
-		{
-			const id: string = req.params.id as string;
+    app.delete("/gimmick/delete/:id", isAdmin, async (req: Request, res: Response) =>
+    {
+      const id: string = req.params.id as string;
 
-			try
-			{
-				await prisma.strawGimmick.delete({where: {id: id}});
-				res.sendStatus(200);
-			}
-			catch (e)
-			{
-				console.error(e);
-				res.sendStatus(400);
-			}
-		});
-	}
+      try
+      {
+        await prisma.strawGimmick.delete({where: {id: id}});
+        res.sendStatus(200);
+      }
+      catch (e)
+      {
+        console.error(e);
+        res.sendStatus(400);
+      }
+    });
+  }
 }
 
 interface GimmickTextBody
 {
-	text: string;
-	timestamp: string;
+  text: string;
+  timestamp: string;
 }
 
 interface GimmickImageBody
 {
-	svg: string;
-	timestamp: string;
+  svg: string;
+  timestamp: string;
 }

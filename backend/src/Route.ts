@@ -2,5 +2,5 @@ import { Application } from "express";
 
 export default interface Route
 {
-	init(app: Application): void;
+  init(app: Application): void;
 }

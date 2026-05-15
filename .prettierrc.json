@@ -1,11 +1,14 @@
 {
-	"plugins": ["prettier-plugin-prisma"],
-	"printWidth": 80,
-	"useTabs": true,
-	"tabWidth": 4,
-	"singleQuote": false,
-	"quoteProps": "preserve",
-	"bracketSpacing": true,
-	"trailingComma": "none",
-	"semi": false
+  "printWidth": 80,
+
+  "useTabs": false,
+  "tabWidth": 2,
+
+  "singleQuote": false,
+  "quoteProps": "preserve",
+  "parser": "json",
+
+  "bracketSpacing": true,
+  "trailingComma": "none",
+  "semi": false
 }
