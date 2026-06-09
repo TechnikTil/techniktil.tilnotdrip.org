@@ -2,7 +2,7 @@ import tseslint from "typescript-eslint"
 import { defineConfig, globalIgnores } from "eslint/config"
 
 export default defineConfig([
-	globalIgnores(["dist", "bunup.config.ts"]),
+	globalIgnores(["dist", "database", "esbuild.config.ts"]),
 	{
 		files: ["**/*.ts"],
 		extends: [

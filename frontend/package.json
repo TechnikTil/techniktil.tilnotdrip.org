@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun run --env-file ../.env.local vite --host",
-    "build": "bun run vite build",
-    "lint": "bun run eslint ."
+    "dev": "pnpm exec vite --host",
+    "build": "pnpm exec vite build",
+    "lint": "pnpm exec eslint ."
   },
   "dependencies": {
     "@svgdotjs/svg.js": "^3.2.5",

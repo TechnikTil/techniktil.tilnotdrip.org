@@ -2,9 +2,7 @@
 import { config } from "dotenv";
 import { defineConfig } from "prisma/config";
 
-// Needed due to Prisma VS Code Extension always complaining
-// TODO: add support for other environment file names
-config({path: ["../.env.local"]});
+config({path: ["../.env"]});
 
 export default defineConfig({
   schema: "schema.prisma",

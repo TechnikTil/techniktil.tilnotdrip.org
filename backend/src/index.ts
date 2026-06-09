@@ -1,20 +1,22 @@
+import "./loadenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { randomBytes } from "crypto";
+import prisma from "database";
 import express, { Application, Request, Response } from "express";
-import { promisify } from "util";
 import ROUTES from "./routes";
 
 const app: Application = express();
 const PORT = 5000;
-export let SECRET: string | undefined = Bun.env.COOKIE_SECRET;
+export const SECRET: string | undefined = process.env.COOKIE_SECRET;
 
 async function main(): Promise<void>
 {
+  await prisma.$queryRaw`SELECT 1`;
+
   if (!SECRET)
   {
-    const generatedSecret: Buffer = await promisify(randomBytes)(32);
-    SECRET = generatedSecret.toBase64();
+    console.error("No secret found.");
+    process.exit(1);
   }
 
   app.use(cors());

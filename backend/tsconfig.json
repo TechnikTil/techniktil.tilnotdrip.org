@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": ["bun-types"],
+    "types": ["node"],
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -11,9 +11,10 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "database": ["./database/index.ts"]
     },
     "noEmit": true
   },
-  "include": ["./src/**/*.ts"]
+  "include": ["./src/**/*.ts", "./database/**/*.ts"]
 }

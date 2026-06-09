@@ -1,8 +1,7 @@
-# dependencies (bun install)
+# dependencies
 node_modules
 
 # output
-out
 dist
 *.tgz
 
@@ -15,12 +14,8 @@ logs
 _.log
 report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
-# dotenv environment variable files
+# dotenv environment
 .env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
 
 # caches
 .eslintcache
@@ -34,8 +29,8 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .DS_Store
 
 # Prisma Generations and Migrations
-database/generated/*
-database/migrations/*
+backend/database/generated/*
+backend/database/migrations/*
 
 # Private Progress Generator
 progress_gen/*

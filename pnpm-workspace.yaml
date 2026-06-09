@@ -1,7 +1,6 @@
 packages:
   - 'frontend'
   - 'backend'
-  - 'database'
 allowBuilds:
   '@prisma/engines': true
   esbuild: true

@@ -1,25 +1,23 @@
-FROM oven/bun:latest AS builder
-WORKDIR /app
-COPY . /app
-
+FROM node:24.16.0 AS builder
 ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN bun --global install pnpm
+ENV PATH="$PNPM_HOME/bin:$PATH"
+RUN corepack enable
+
+COPY . /app
+WORKDIR /app
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-	pnpm --filter backend -filter database install --frozen-lockfile
+	pnpm --filter backend install --frozen-lockfile
 
-RUN pnpm --filter database run generate
+RUN pnpm --filter backend run db:generate
+RUN pnpm --filter backend run build
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
-	pnpm --filter backend run build
-
-
-
-FROM oven/bun:slim AS production
+FROM node:24.16.0-slim AS production
+ENV NODE_ENV="production"
 WORKDIR /app
 
 COPY --from=builder /app/backend/dist .
+RUN npm install @prisma/client
 
 EXPOSE 5000
-CMD ["bun", "run", "index.js"]
+CMD ["node", "."]

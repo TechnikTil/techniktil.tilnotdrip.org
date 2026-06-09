@@ -1,34 +1,36 @@
-# Logs
-**/logs
+# dependencies
+node_modules
+
+# output
+dist
+**/*.tgz
+
+# code coverage
+coverage
+**/*.lcov
+
+# logs
+logs
 **/*.log
-**/npm-debug.log*
-**/yarn-debug.log*
-**/yarn-error.log*
-**/pnpm-debug.log*
-**/lerna-debug.log*
+**/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# Vite
-**/.vite
+# dotenv environment
+.env
 
-**/node_modules
-**/dist
-**/dist-ssr
-**/*.local
+# caches
+.eslintcache
+.cache
+**/*.tsbuildinfo
 
-# Editor directories and files
-**/.vscode/*
-!**/.vscode/extensions.json
-**/.idea
+# IntelliJ based IDEs
+.idea
+
+# Finder (MacOS) folder config
 **/.DS_Store
-**/*.suo
-**/*.ntvs*
-**/*.njsproj
-**/*.sln
-**/*.sw?
-
-**/.env*
-**/dev.db
 
 # Prisma Generations and Migrations
-**/database/generated/*
-**/database/migrations/*
+backend/database/generated
+backend/database/migrations
+
+# Private Progress Generator
+progress_gen
