@@ -38,7 +38,7 @@ export default class AboutMePage extends Page
           <li>will probably be a basement dweller for a living</li>
           <li>
             In a Discord Group Chat called "
-            <span className="cc1Text">Couples Counseling #1</span>" (don't ask)
+            <span className="cc1Text">Couples Counseling #2</span>" (don't ask)
           </li>
         </ul>
       </div>
