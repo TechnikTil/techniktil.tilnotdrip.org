@@ -38,7 +38,7 @@ export default class AboutMePage extends Page
 					<li>will probably be a basement dweller for a living</li>
 					<li>
 						In a Discord Group Chat called "
-						<span style={{color: "#F58700"}}>Couples Counseling #1</span>" (don't ask)
+						<span style={{color: "#F58700"}}>Couples Counseling #2</span>" (don't ask)
 					</li>
 				</ul>
 			</div>
