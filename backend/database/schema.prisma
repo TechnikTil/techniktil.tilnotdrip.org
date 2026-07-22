@@ -1,0 +1,23 @@
+generator client {
+    provider   = "prisma-client"
+    output     = "generated"
+    engineType = "client"
+    runtime    = "nodejs"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model StrawGimmick {
+    id   String   @id @unique @default(uuid())
+    text String?
+    svg  String?
+    date DateTime
+}
+
+model AdminAccount {
+    id           String @id @unique @default(uuid())
+    username     String @unique
+    passwordHash String
+}

@@ -1,0 +1,111 @@
+.strawContainer {
+	width: 100%;
+
+	margin-top: 80px;
+	margin-bottom: 80px;
+}
+
+.strawHookTitle {
+	width: max-content;
+	max-width: 100vw;
+	font-size: 30px;
+
+	cursor: pointer;
+	user-select: none;
+}
+
+.strawNodeContainer {
+	width: max-content;
+
+	margin-top: 25px;
+	gap: 20px;
+
+	display: grid;
+	place-items: center;
+}
+
+.arrowDown {
+	display: inline-block;
+	transform: rotate(90deg);
+}
+
+.strawDraw {
+	width: 400px;
+	max-width: 90vw;
+	height: max-content;
+
+	background-color: #3e3e3e;
+	padding: 10px;
+}
+
+.strawDrawController {
+	position: relative;
+	width: max-content;
+	max-width: 100%;
+
+	display: flex;
+	flex-wrap: wrap;
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+
+	justify-content: center;
+	align-items: center;
+
+	gap: 5px;
+}
+
+.colorpicker {
+	display: inline-block;
+
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	border: 3px solid #fff;
+}
+
+.colorpickerFull {
+	position: absolute;
+	z-index: 1000;
+
+	left: 50%;
+	transform: translateX(-50%);
+
+	width: max-content;
+	top: 120%;
+}
+
+.strawDrawSubmit {
+	margin-top: 5px;
+}
+
+.strawText {
+	width: max-content;
+	height: max-content;
+	max-width: 90vw;
+
+	background-color: #3e3e3e;
+	padding: 10px;
+}
+
+.strawTextInput {
+	box-sizing: border-box;
+	max-width: 100%;
+
+	width: 380px;
+	height: 35px;
+
+	font-size: 15px;
+	padding: 0 5px;
+}
+
+.strawSubmit {
+	width: max-content;
+	height: auto;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	margin-top: 5px;
+}

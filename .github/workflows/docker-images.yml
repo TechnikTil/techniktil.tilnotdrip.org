@@ -1,0 +1,79 @@
+name: Publish Docker Image
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suffix: backend
+            file: backend/Dockerfile
+          - suffix: frontend
+            file: frontend/Dockerfile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+
+      - name: Set up Docker Buildx
+        id: builder
+        uses: docker/setup-buildx-action@master
+
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@master
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Metadata
+        id: meta
+        uses: docker/metadata-action@master
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}/${{ matrix.suffix }}
+          flavor: |
+            latest=${{ github.ref_name == github.event.repository.default_branch }}
+          tags: |
+            type=ref,event=branch
+            type=sha
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@master
+        with:
+          context: .
+          file: ${{ matrix.file }}
+          builder: ${{ steps.builder.outputs.name }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Clean Image Name for Attestation
+        id: image-name
+        run: |
+          RAW_IMAGE="${{ fromJson(steps.meta.outputs.json).tags[0] }}"
+          echo "image=${RAW_IMAGE%:*}" >> "$GITHUB_OUTPUT"
+
+      - name: Generate Artifact Attestation
+        uses: actions/attest@main
+        with:
+          subject-name: ${{ steps.image-name.outputs.image }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true

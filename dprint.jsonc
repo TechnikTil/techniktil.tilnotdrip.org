@@ -1,21 +1,37 @@
 {
-	"lineWidth": 120,
-	"plugins": [
-		"https://plugins.dprint.dev/typescript-0.95.12.wasm"
-	],
-	"includes": [
-		"**/*.{ts,tsx}"
-	],
-	"typescript": {
-		"bracePosition": "nextLine",
-		"nextControlFlowPosition": "nextLine",
-		"semiColons": "always",
-		"useBraces": "whenNotSingleLine",
-		"spaceAround": false,
-		"preferSingleLine": true,
-		"spaceSurroundingProperties": false,
-		"objectExpression.preferHanging": false
-	},
-	"indentWidth": 4,
-	"useTabs": true
+  "$schema": "https://dprint.dev/schemas/v0.json",
+  "lineWidth": 160,
+  "indentWidth": 2,
+  "useTabs": false,
+  "newLineKind": "auto",
+  "typescript": {
+    "semiColons": "always",
+    "trailingCommas": "never",
+    "bracePosition": "nextLine",
+    "useBraces": "always",
+    "nextControlFlowPosition": "nextLine",
+    "singleBodyPosition": "sameLine",
+    "operatorPosition": "sameLine",
+    "quoteStyle": "preferDouble",
+    "spaceSurroundingProperties": false,
+    "preferSingleLine": false,
+    "preferHanging": false,
+    "enumDeclaration.memberSpacing": "newLine",
+    "typeLiteral.separatorKind": "semiColon",
+    "arrowFunction.useParentheses": "force",
+    "conditionalExpression.linePerExpression": false,
+    "memberExpression.linePerExpression": false,
+    "binaryExpression.linePerExpression": false
+  },
+  "includes": [
+    "**/*.{ts,tsx}"
+  ],
+  "excludes": [
+    "**/node_modules",
+    "**/.git",
+    "**/dist"
+  ],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.95.12.wasm"
+  ]
 }
