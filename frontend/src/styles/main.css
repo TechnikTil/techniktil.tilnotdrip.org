@@ -14,8 +14,9 @@
 body {
 	font-family: "DigitalDisco";
 
-	/* I know theres a way to do this without an image, stop shouting t me*/
+	/* I know theres a way to do this without an image, stop shouting at me*/
 	background: black url("/images/checkers.png") repeat;
+	background-attachment: fixed;
 	animation: backdropIllusion linear 8s infinite;
 
 	color: white;
