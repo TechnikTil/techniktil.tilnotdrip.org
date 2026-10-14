@@ -1,5 +1,6 @@
 technotdrip
 fnf
+qt-rewired
 remnants
 hazier-river
 nightmare-funkin

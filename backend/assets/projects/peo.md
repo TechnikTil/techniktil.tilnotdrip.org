@@ -1,6 +1,6 @@
 ---
 name: "Psych Online"
-image: "psychOnline.webp"
+image: "psych-online.webp"
 downloads:
   - name: Website
     url: https://funkin.sniro.boo

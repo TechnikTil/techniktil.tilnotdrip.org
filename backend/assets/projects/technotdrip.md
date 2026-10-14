@@ -1,6 +1,6 @@
 ---
 name: "TechNotDrip Engine"
-image: "no_logo.webp"
+image: "no-logo.webp"
 downloads:
   - name: GitHub
     url: https://github.com/TilNotDrip/TechNotDrip-Engine
